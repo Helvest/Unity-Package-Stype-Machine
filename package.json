@@ -1,0 +1,16 @@
+{
+  "name": "com.helvest.stypemachine",
+  "version": "1.0.0",
+  "displayName": "Stype Machine",
+  "description": "State Machine and Type Machine scripts",
+  "keywords": [
+    "Machine",
+    "State",
+    "Type"
+  ],
+  "author": {
+    "name": "Pedro Dominic\u00e9 (Helvest)",
+    "url": "https://twitter.com/HelvestEpic"
+  },
+  "type": "tool"
+}
