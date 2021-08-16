@@ -14,7 +14,7 @@ namespace StypeMachine
 
 		public bool apceptValuesNotIncluded = false;
 
-		public bool canReenterSameState = false;	
+		public bool canReenterSameState = false;
 
 		#endregion
 

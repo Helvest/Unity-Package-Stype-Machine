@@ -87,26 +87,42 @@ namespace StypeMachine
 		#region AddState
 
 		public void AddState<t>(Action enterAction = default, Action exitAction = default, Action updateAction = default) where t : T
-			=> typeMachine.AddState<t>(enterAction, exitAction, updateAction);
+		{
+			typeMachine.AddState<t>(enterAction, exitAction, updateAction);
+		}
 
 		public void AddState<t>(t state, Action enterAction = default, Action exitAction = default, Action updateAction = default) where t : T
-			=> typeMachine.AddState(state, enterAction, exitAction, updateAction);
+		{
+			typeMachine.AddState(state, enterAction, exitAction, updateAction);
+		}
 
 		#endregion
 
 		#region RemoveState
 
-		public void RemoveState<t>() where t : T => typeMachine.RemoveState<t>();
+		public void RemoveState<t>() where t : T
+		{
+			typeMachine.RemoveState<t>();
+		}
 
-		public void RemoveState(T state) => typeMachine.RemoveState(state);
+		public void RemoveState(T state)
+		{
+			typeMachine.RemoveState(state);
+		}
 
 		#endregion
 
 		#region SetDefaultState
 
-		public void SetDefaultState<t>() where t : T => typeMachine.SetDefaultState<t>();
+		public void SetDefaultState<t>() where t : T
+		{
+			typeMachine.SetDefaultState<t>();
+		}
 
-		public void SetDefaultState<t>(t state) where t : T => typeMachine.SetDefaultState(state);
+		public void SetDefaultState<t>(t state) where t : T
+		{
+			typeMachine.SetDefaultState(state);
+		}
 
 		#endregion
 
