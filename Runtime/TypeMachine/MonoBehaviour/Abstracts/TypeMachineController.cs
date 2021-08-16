@@ -25,25 +25,11 @@ namespace StypeMachine
 
 		public void SetState<t>() where t : T
 		{
-#if UNITY_EDITOR
-			if (useDebug)
-			{
-				Debug.Log("SetState: " + typeof(t));
-			}
-#endif
-
 			typeMachine.SetState<t>();
 		}
 
 		public void SetState<t>(t type) where t : T
 		{
-#if UNITY_EDITOR
-			if (useDebug)
-			{
-				Debug.Log("SetState: " + type.GetType());
-			}
-#endif
-
 			typeMachine.SetState(type);
 		}
 
@@ -65,6 +51,15 @@ namespace StypeMachine
 		#region Init
 
 		protected virtual void Awake()
+		{
+			CreateTypeMachine();
+
+#if UNITY_EDITOR
+			typeMachine.useDebug = useDebug;
+#endif
+		}
+
+		protected virtual void CreateTypeMachine()
 		{
 			typeMachine = new TypeMachine(typeof(T), _apceptValuesNotIncluded, _canReenterSameState);
 		}

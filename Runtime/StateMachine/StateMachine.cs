@@ -119,7 +119,11 @@ namespace StypeMachine
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Add State: " + state + ", enterAction: " + enterAction);
+				Debug.Log("Add State: " + state
+					+ "\nEnter: " + (enterAction != null ? $"{enterAction.Method.ReflectedType}.{enterAction.Method.Name}()" : "null")
+					+ "\nExit: " + (exitAction != null ? $"{exitAction.Method.ReflectedType}.{exitAction.Method.Name}()" : "null")
+					+ "\nUpdate: " + (updateAction != null ? $"{updateAction.Method.ReflectedType}.{updateAction.Method.Name}()" : "null")
+				);
 			}
 #endif
 
