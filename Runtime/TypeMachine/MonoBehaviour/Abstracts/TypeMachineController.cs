@@ -123,11 +123,9 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
 		[Header("Debug")]
 		[SerializeField]
 		protected bool useDebug = false;
-#endif
 
 		#endregion
 
