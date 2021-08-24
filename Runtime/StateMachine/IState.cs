@@ -2,9 +2,9 @@
 {
 	public interface IState
 	{
-		public void EnterState();
-		public void ExitState();
-		public void UpdateState();
+		void EnterState();
+		void ExitState();
+		void UpdateState();
 	}
 }
 
