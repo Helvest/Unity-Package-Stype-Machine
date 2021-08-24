@@ -19,6 +19,8 @@ namespace StypeMachine
 
 		protected TypeMachine typeMachine;
 
+		protected bool hasStarted = false;
+
 		#endregion
 
 		#region State
@@ -59,6 +61,12 @@ namespace StypeMachine
 #endif
 		}
 
+		protected virtual void Start()
+		{
+			hasStarted = true;
+			ToStartState();
+		}
+
 		protected virtual void CreateTypeMachine()
 		{
 			typeMachine = new TypeMachine(typeof(T), _apceptValuesNotIncluded, _canReenterSameState);
@@ -66,15 +74,22 @@ namespace StypeMachine
 
 		protected virtual void OnEnable()
 		{
-			if (_startState != null)
-			{
-				SetState(_startState);
-			}
+			ToStartState();
 		}
 
 		protected virtual void OnDisable()
 		{
 			typeMachine.ToDefault();
+		}
+
+		protected virtual void ToStartState()
+		{
+			if (!hasStarted || _startState == null)
+			{
+				return;
+			}
+
+			SetState(_startState);
 		}
 
 		#endregion
