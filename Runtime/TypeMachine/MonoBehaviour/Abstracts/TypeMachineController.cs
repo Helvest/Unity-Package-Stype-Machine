@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StypeMachine
 {
-	public abstract class TypeMachineController<T> : MonoBehaviour
+	public abstract class TypeMachineController<T> : MonoBehaviour, IHoldTM
 	{
 
 		#region Variables
@@ -19,7 +19,7 @@ namespace StypeMachine
 		[SerializeField]
 		protected T startState = default;
 
-		public TypeMachine TypeMachine { get; private set; }
+		public TypeMachine TM { get; private set; }
 
 		protected bool hasStarted = false;
 
@@ -27,26 +27,11 @@ namespace StypeMachine
 
 		#region State
 
-		public void SetState<t>() where t : T
-		{
-			TypeMachine.SetState<t>();
-		}
-
-		public void SetState<t>(t instance) where t : T
-		{
-			TypeMachine.SetState(instance);
-		}
-
-		public void SetState(Type type)
-		{
-			TypeMachine.SetState(type);
-		}
-
 		public virtual Type State
 		{
-			get => TypeMachine.State;
+			get => TM.State;
 
-			set => TypeMachine.State = value;
+			set => TM.State = value;
 		}
 
 		#endregion
@@ -58,7 +43,7 @@ namespace StypeMachine
 			CreateTypeMachine();
 
 #if UNITY_EDITOR
-			TypeMachine.useDebug = useDebug;
+			TM.useDebug = useDebug;
 #endif
 		}
 
@@ -70,7 +55,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			TypeMachine = new TypeMachine(typeof(T), apceptValuesNotIncluded, canReenterSameState);
+			TM = new TypeMachine(typeof(T), apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -80,7 +65,7 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			TypeMachine.ToDefault();
+			TM.ToDefault();
 		}
 
 		protected virtual void ToStartState()
@@ -90,49 +75,7 @@ namespace StypeMachine
 				return;
 			}
 
-			SetState(startState);
-		}
-
-		#endregion
-
-		#region AddState
-
-		public void AddState<t>(Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default) where t : T
-		{
-			TypeMachine.AddState<t>(enterAction, exitAction, updateAction);
-		}
-
-		public void AddState<t>(t state, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default) where t : T
-		{
-			TypeMachine.AddState(state, enterAction, exitAction, updateAction);
-		}
-
-		#endregion
-
-		#region RemoveState
-
-		public void RemoveState<t>() where t : T
-		{
-			TypeMachine.RemoveState<t>();
-		}
-
-		public void RemoveState(T state)
-		{
-			TypeMachine.RemoveState(state);
-		}
-
-		#endregion
-
-		#region SetDefaultState
-
-		public void SetDefaultState<t>() where t : T
-		{
-			TypeMachine.SetDefaultState<t>();
-		}
-
-		public void SetDefaultState<t>(t state) where t : T
-		{
-			TypeMachine.SetDefaultState(state);
+			this.SetState(startState);
 		}
 
 		#endregion

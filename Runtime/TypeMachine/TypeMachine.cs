@@ -12,6 +12,20 @@ namespace StypeMachine
 
 		#endregion
 
+		#region IsState
+
+		public bool IsState<t>()
+		{
+			return State == typeof(t);
+		}
+
+		public bool IsState<t>(t instance)
+		{
+			return State == instance.GetType();
+		}
+
+		#endregion
+
 		#region SetState
 
 		public void SetState<t>()

@@ -126,7 +126,7 @@ namespace StypeMachine
 
 		private readonly Dictionary<T, StateEventHandler> _stateEventHandlerDict = new Dictionary<T, StateEventHandler>();
 
-		public void AddState(T state, Action<T,T> enterAction = default, Action<T,T> exitAction = default, Action updateAction = default)
+		public void AddState(T state, Action<T, T> enterAction = default, Action<T, T> exitAction = default, Action updateAction = default)
 		{
 #if UNITY_EDITOR
 			if (useDebug)
