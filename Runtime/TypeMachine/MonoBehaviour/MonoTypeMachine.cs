@@ -8,13 +8,14 @@ namespace StypeMachine
 		[Header("MonoTypeMachine")]
 
 		[SerializeField]
-		private Transform _instanceParent = default;
+		protected List<MonoBehaviour> states = default;
+
+		[Header("Prefabs")]
+		[SerializeField]
+		private Transform _transformParentForPrefabs = default;
 
 		[SerializeField]
 		protected List<MonoBehaviour> statesPrefab = default;
-
-		[SerializeField]
-		protected List<MonoBehaviour> states = default;
 
 		protected override void CreateTypeMachine()
 		{
@@ -34,11 +35,6 @@ namespace StypeMachine
 				}
 			}
 
-			if (_instanceParent == null)
-			{
-				TryGetComponent(out _instanceParent);
-			}
-
 			foreach (var state in statesPrefab)
 			{
 				if (state != null)
@@ -55,7 +51,7 @@ namespace StypeMachine
 							}
 							else if (prefab != null)
 							{
-								instance = Instantiate(prefab, _instanceParent);
+								instance = Instantiate(prefab, _transformParentForPrefabs);
 							}
 						},
 						exitAction: (P, N) =>

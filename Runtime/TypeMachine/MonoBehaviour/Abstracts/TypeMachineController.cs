@@ -8,6 +8,8 @@ namespace StypeMachine
 
 		#region Variables
 
+		[Header("TypeMachineController")]
+
 		[SerializeField]
 		protected bool apceptValuesNotIncluded = false;
 
