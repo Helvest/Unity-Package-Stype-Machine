@@ -36,6 +36,7 @@ namespace StypeMachine
 			if (defaultValue != null)
 			{
 				AddState(defaultValue);
+				_state = defaultValue;
 			}
 		}
 
@@ -47,13 +48,15 @@ namespace StypeMachine
 
 		public T State
 		{
-			get
-			{
-				return _state;
-			}
+			get => _state;
 
 			set
 			{
+				if (value == null)
+				{
+					return;
+				}
+
 				// if the "new state" is the current one, we do nothing and exit
 				if (!canReenterSameState && value.Equals(_state))
 				{
@@ -66,29 +69,38 @@ namespace StypeMachine
 					return;
 				}
 
-#if UNITY_EDITOR
-				if (useDebug)
-				{
-					Debug.Log("Set State - " + value + " => " + _state);
-				}
-#endif
-
 				bool valueFound = _stateEventHandlerDict.TryGetValue(value, out var newStateEventHandler);
 
 				if (!apceptValuesNotIncluded && !valueFound)
 				{
-					Debug.LogWarning("Value [" + value + "] not apcepted");
+					Debug.LogWarning("Set State - Value [" + value + "] not apcepted");
 					return;
 				}
 
-				_stateEventHandler?.ExitState?.Invoke();
+				_stateEventHandler?.ExitState?.Invoke(_state, value);
 
+				var previousState = _state;
 				_state = value;
+
+#if UNITY_EDITOR
+				if (useDebug)
+				{
+					if (previousState == null)
+					{
+						Debug.Log("Set State to " + _state);
+					}
+					else
+					{
+						Debug.Log("Set State from " + previousState + " to " + _state);
+					}
+
+				}
+#endif
 
 				if (valueFound)
 				{
 					_stateEventHandler = newStateEventHandler;
-					_stateEventHandler.EnterState?.Invoke();
+					_stateEventHandler.EnterState?.Invoke(previousState, value);
 				}
 				else
 				{
@@ -103,18 +115,18 @@ namespace StypeMachine
 
 		private class StateEventHandler
 		{
-			public Action EnterState;
+			public Action<T, T> EnterState;
 
 			public Action UpdateState;
 
-			public Action ExitState;
+			public Action<T, T> ExitState;
 		}
 
 		private StateEventHandler _stateEventHandler;
 
 		private readonly Dictionary<T, StateEventHandler> _stateEventHandlerDict = new Dictionary<T, StateEventHandler>();
 
-		public void AddState(T state, Action enterAction = default, Action exitAction = default, Action updateAction = default)
+		public void AddState(T state, Action<T,T> enterAction = default, Action<T,T> exitAction = default, Action updateAction = default)
 		{
 #if UNITY_EDITOR
 			if (useDebug)

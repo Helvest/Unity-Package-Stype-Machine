@@ -19,21 +19,26 @@ namespace StypeMachine
 			State = typeof(t);
 		}
 
-		public void SetState<t>(t type)
+		public void SetState<t>(t instance)
 		{
-			State = type.GetType();
+			State = instance.GetType();
+		}
+
+		public void SetState(Type type)
+		{
+			State = type;
 		}
 
 		#endregion
 
 		#region Add State
 
-		public void AddState<t>(Action enterAction = default, Action exitAction = default, Action updateAction = default)
+		public void AddState<t>(Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
 		{
 			base.AddState(typeof(t), enterAction, exitAction, updateAction);
 		}
 
-		public void AddState<t>(t type, Action enterAction = default, Action exitAction = default, Action updateAction = default)
+		public void AddState<t>(t type, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
 		{
 			base.AddState(type.GetType(), enterAction, exitAction, updateAction);
 		}

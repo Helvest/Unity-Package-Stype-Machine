@@ -9,15 +9,15 @@ namespace StypeMachine
 		#region Variables
 
 		[SerializeField]
-		protected bool _apceptValuesNotIncluded = false;
+		protected bool apceptValuesNotIncluded = false;
 
 		[SerializeField]
-		protected bool _canReenterSameState = false;
+		protected bool canReenterSameState = false;
 
 		[SerializeField]
-		protected T _startState = default;
+		protected T startState = default;
 
-		protected TypeMachine typeMachine;
+		public TypeMachine TypeMachine { get; private set; }
 
 		protected bool hasStarted = false;
 
@@ -27,25 +27,24 @@ namespace StypeMachine
 
 		public void SetState<t>() where t : T
 		{
-			typeMachine.SetState<t>();
+			TypeMachine.SetState<t>();
 		}
 
-		public void SetState<t>(t type) where t : T
+		public void SetState<t>(t instance) where t : T
 		{
-			typeMachine.SetState(type);
+			TypeMachine.SetState(instance);
+		}
+
+		public void SetState(Type type)
+		{
+			TypeMachine.SetState(type);
 		}
 
 		public virtual Type State
 		{
-			get
-			{
-				return typeMachine.State;
-			}
+			get => TypeMachine.State;
 
-			set
-			{
-				typeMachine.State = value;
-			}
+			set => TypeMachine.State = value;
 		}
 
 		#endregion
@@ -57,7 +56,7 @@ namespace StypeMachine
 			CreateTypeMachine();
 
 #if UNITY_EDITOR
-			typeMachine.useDebug = useDebug;
+			TypeMachine.useDebug = useDebug;
 #endif
 		}
 
@@ -69,7 +68,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			typeMachine = new TypeMachine(typeof(T), _apceptValuesNotIncluded, _canReenterSameState);
+			TypeMachine = new TypeMachine(typeof(T), apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -79,31 +78,31 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			typeMachine.ToDefault();
+			TypeMachine.ToDefault();
 		}
 
 		protected virtual void ToStartState()
 		{
-			if (!hasStarted || _startState == null)
+			if (!hasStarted || startState == null)
 			{
 				return;
 			}
 
-			SetState(_startState);
+			SetState(startState);
 		}
 
 		#endregion
 
 		#region AddState
 
-		public void AddState<t>(Action enterAction = default, Action exitAction = default, Action updateAction = default) where t : T
+		public void AddState<t>(Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default) where t : T
 		{
-			typeMachine.AddState<t>(enterAction, exitAction, updateAction);
+			TypeMachine.AddState<t>(enterAction, exitAction, updateAction);
 		}
 
-		public void AddState<t>(t state, Action enterAction = default, Action exitAction = default, Action updateAction = default) where t : T
+		public void AddState<t>(t state, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default) where t : T
 		{
-			typeMachine.AddState(state, enterAction, exitAction, updateAction);
+			TypeMachine.AddState(state, enterAction, exitAction, updateAction);
 		}
 
 		#endregion
@@ -112,12 +111,12 @@ namespace StypeMachine
 
 		public void RemoveState<t>() where t : T
 		{
-			typeMachine.RemoveState<t>();
+			TypeMachine.RemoveState<t>();
 		}
 
 		public void RemoveState(T state)
 		{
-			typeMachine.RemoveState(state);
+			TypeMachine.RemoveState(state);
 		}
 
 		#endregion
@@ -126,21 +125,25 @@ namespace StypeMachine
 
 		public void SetDefaultState<t>() where t : T
 		{
-			typeMachine.SetDefaultState<t>();
+			TypeMachine.SetDefaultState<t>();
 		}
 
 		public void SetDefaultState<t>(t state) where t : T
 		{
-			typeMachine.SetDefaultState(state);
+			TypeMachine.SetDefaultState(state);
 		}
 
 		#endregion
 
 		#region Debug
 
+#if UNITY_EDITOR
+
 		[Header("Debug")]
 		[SerializeField]
 		protected bool useDebug = false;
+
+#endif
 
 		#endregion
 

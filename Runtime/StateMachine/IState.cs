@@ -1,9 +1,11 @@
-﻿namespace StypeMachine
+﻿using System;
+
+namespace StypeMachine
 {
 	public interface IState
 	{
-		void EnterState();
-		void ExitState();
+		void EnterState(Type preState, Type nexState);
+		void ExitState(Type preState, Type nexState);
 		void UpdateState();
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace StypeMachine
 {
-	public class TypeMachineControllerState : TypeMachineControllerIState<State> { }
+	public class TypeMachineControllerState : TypeMachineController<State> { }
 
 }
 
