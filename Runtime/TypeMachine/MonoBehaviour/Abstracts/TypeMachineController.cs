@@ -65,7 +65,7 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			TM.ToDefault();
+			TM.ToDefaultState();
 		}
 
 		protected virtual void ToStartState()

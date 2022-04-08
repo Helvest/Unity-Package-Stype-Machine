@@ -17,7 +17,16 @@ public static class TypeMachineControllerExtension
 
 	#endregion
 
-	#region State
+	#region GetState
+
+	public static Type GetState(this IHoldTM hold)
+	{
+		return hold.TM.State;
+	}
+
+	#endregion
+
+	#region SetState
 
 	public static void SetState<T>(this IHoldTM hold)
 	{
@@ -64,7 +73,12 @@ public static class TypeMachineControllerExtension
 
 	#endregion
 
-	#region SetDefaultState
+	#region DefaultState
+
+	public static void ToDefaultState(this IHoldTM hold)
+	{
+		hold.TM.ToDefaultState();
+	}
 
 	public static void SetDefaultState<T>(this IHoldTM hold)
 	{

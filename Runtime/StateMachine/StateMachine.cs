@@ -10,9 +10,9 @@ namespace StypeMachine
 
 		#region Variables
 
-		public T DefaultValue { get; protected set; } = default;
+		public T DefaultState { get; protected set; } = default;
 
-		public bool apceptValuesNotIncluded = false;
+		public bool acceptStateNotIncluded = false;
 
 		public bool canReenterSameState = false;
 
@@ -22,9 +22,9 @@ namespace StypeMachine
 
 		public StateMachine(T defaultValue = default, bool apceptValuesNotIncluded = false, bool canReenterSameState = false)
 		{
-			this.apceptValuesNotIncluded = apceptValuesNotIncluded;
+			this.acceptStateNotIncluded = apceptValuesNotIncluded;
 			this.canReenterSameState = canReenterSameState;
-			DefaultValue = defaultValue;
+			DefaultState = defaultValue;
 
 #if UNITY_EDITOR
 			if (useDebug)
@@ -71,7 +71,7 @@ namespace StypeMachine
 
 				bool valueFound = _stateEventHandlerDict.TryGetValue(value, out var newStateEventHandler);
 
-				if (!apceptValuesNotIncluded && !valueFound)
+				if (!acceptStateNotIncluded && !valueFound)
 				{
 					Debug.LogWarning("Set State - Value [" + value + "] not apcepted");
 					return;
@@ -171,9 +171,9 @@ namespace StypeMachine
 
 		#region Default State
 
-		public void ToDefault()
+		public void ToDefaultState()
 		{
-			State = DefaultValue;
+			State = DefaultState;
 		}
 
 		public virtual void SetDefaultState(T state)
@@ -185,7 +185,7 @@ namespace StypeMachine
 			}
 #endif
 
-			DefaultValue = state;
+			DefaultState = state;
 
 			if (state != null && !_stateEventHandlerDict.ContainsKey(state))
 			{
