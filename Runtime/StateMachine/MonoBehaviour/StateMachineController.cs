@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace StypeMachine
 {
-	public abstract class TypeMachineController<T> : MonoBehaviour, IHoldTypeMachine where T : class
+	public abstract class StateMachineController<T> : MonoBehaviour, IHoldStateMachine<T> where T : Enum
 	{
 
 		#region Variables
 
-		[Header("TypeMachineController")]
+		[Header("StateMachineController")]
 
 		[SerializeField]
 		protected bool apceptValuesNotIncluded = false;
@@ -19,20 +19,9 @@ namespace StypeMachine
 		[SerializeField]
 		protected T startState = default;
 
-		public TypeMachine TypeMachine { get; private set; }
+		public StateMachine<T> StateMachine { get; private set; }
 
 		protected bool hasStarted = false;
-
-		#endregion
-
-		#region State
-
-		public virtual Type State
-		{
-			get => TypeMachine.State;
-
-			set => TypeMachine.State = value;
-		}
 
 		#endregion
 
@@ -42,8 +31,10 @@ namespace StypeMachine
 		{
 			CreateTypeMachine();
 
+			this.
+
 #if UNITY_EDITOR
-			TypeMachine.useDebug = useDebug;
+			StateMachine.useDebug = useDebug;
 #endif
 		}
 
@@ -55,7 +46,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			TypeMachine = new TypeMachine(typeof(T), apceptValuesNotIncluded, canReenterSameState);
+			StateMachine = new StateMachine<T>(default(T), apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -65,7 +56,7 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			TypeMachine.ToDefaultState();
+			StateMachine.ToDefaultState();
 		}
 
 		protected virtual void ToStartState()
@@ -94,3 +85,4 @@ namespace StypeMachine
 
 	}
 }
+

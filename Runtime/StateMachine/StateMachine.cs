@@ -20,16 +20,16 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public StateMachine(T defaultValue = default, bool apceptValuesNotIncluded = false, bool canReenterSameState = false)
+		public StateMachine(T defaultValue = default, bool acceptStateNotIncluded = false, bool canReenterSameState = false)
 		{
-			this.acceptStateNotIncluded = apceptValuesNotIncluded;
+			this.acceptStateNotIncluded = acceptStateNotIncluded;
 			this.canReenterSameState = canReenterSameState;
 			DefaultState = defaultValue;
 
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Constructor - apceptValuesNotIncluded: " + apceptValuesNotIncluded + ", DefaultValue: " + defaultValue);
+				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + ", DefaultValue: " + defaultValue);
 			}
 #endif
 
@@ -43,6 +43,11 @@ namespace StypeMachine
 		#endregion
 
 		#region Get Set State
+
+		public bool IsState(T state)
+		{
+			return _state != null ? _state.Equals(state) : state == null;
+		}
 
 		private T _state;
 

@@ -31,7 +31,7 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 		{
 			if (state != null)
 			{
-				TM.AddState(state,
+				TypeMachine.AddState(state,
 					enterAction: (P, N) => state.gameObject.SetActive(true),
 					exitAction: (P, N) => state.gameObject.SetActive(false),
 					updateAction: null
@@ -48,7 +48,7 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 				var prefab = state;
 				MonoBehaviour instance = null;
 
-				TM.AddState(state,
+				TypeMachine.AddState(state,
 					enterAction: (P, N) =>
 					{
 						if (P == N && instance != null)

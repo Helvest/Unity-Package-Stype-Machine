@@ -5,89 +5,94 @@ public static class TypeMachineControllerExtension
 
 	#region IsState
 
-	public static bool IsState<T>(this IHoldTM hold)
+	public static bool IsState<T>(this IHoldTypeMachine hold)
 	{
-		return hold.TM.IsState<T>();
+		return hold.TypeMachine.IsState<T>();
 	}
 
-	public static bool IsState<T>(this IHoldTM hold, T instance)
+	public static bool IsState<T>(this IHoldTypeMachine hold, T instance)
 	{
-		return hold.TM.IsState(instance);
+		return hold.TypeMachine.IsState(instance);
 	}
 
 	#endregion
 
 	#region GetState
 
-	public static Type GetState(this IHoldTM hold)
+	public static Type GetState(this IHoldTypeMachine hold)
 	{
-		return hold.TM.State;
+		return hold.TypeMachine.State;
 	}
 
 	#endregion
 
 	#region SetState
 
-	public static void SetState<T>(this IHoldTM hold)
+	public static void SetState<T>(this IHoldTypeMachine hold)
 	{
-		hold.TM.SetState<T>();
+		hold.TypeMachine.SetState<T>();
 	}
 
-	public static void SetState<T>(this IHoldTM hold, T instance)
+	public static void SetState<T>(this IHoldTypeMachine hold, T instance)
 	{
-		hold.TM.SetState(instance);
+		hold.TypeMachine.SetState(instance);
 	}
 
-	public static void SetState(this IHoldTM hold, Type type)
+	public static void SetState(this IHoldTypeMachine hold, Type type)
 	{
-		hold.TM.SetState(type);
+		hold.TypeMachine.State = type;
 	}
 
 	#endregion
 
 	#region AddState
 
-	public static void AddState<T>(this IHoldTM hold, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
+	public static void AddState<T>(this IHoldTypeMachine hold, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
 	{
-		hold.TM.AddState<T>(enterAction, exitAction, updateAction);
+		hold.TypeMachine.AddState<T>(enterAction, exitAction, updateAction);
 	}
 
-	public static void AddState<T>(this IHoldTM hold, T state, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
+	public static void AddState<T>(this IHoldTypeMachine hold, T state, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
 	{
-		hold.TM.AddState(state, enterAction, exitAction, updateAction);
+		hold.TypeMachine.AddState(state, enterAction, exitAction, updateAction);
+	}
+
+	public static void AddState(this IHoldTypeMachine hold, Type state, Action<Type, Type> enterAction = default, Action<Type, Type> exitAction = default, Action updateAction = default)
+	{
+		hold.TypeMachine.AddState(state, enterAction, exitAction, updateAction);
 	}
 
 	#endregion
 
 	#region RemoveState
 
-	public static void RemoveState<T>(this IHoldTM hold)
+	public static void RemoveState<T>(this IHoldTypeMachine hold)
 	{
-		hold.TM.RemoveState<T>();
+		hold.TypeMachine.RemoveState<T>();
 	}
 
-	public static void RemoveState<T>(this IHoldTM hold, T state)
+	public static void RemoveState<T>(this IHoldTypeMachine hold, T state)
 	{
-		hold.TM.RemoveState(state);
+		hold.TypeMachine.RemoveState(state);
 	}
 
 	#endregion
 
 	#region DefaultState
 
-	public static void ToDefaultState(this IHoldTM hold)
+	public static void ToDefaultState(this IHoldTypeMachine hold)
 	{
-		hold.TM.ToDefaultState();
+		hold.TypeMachine.ToDefaultState();
 	}
 
-	public static void SetDefaultState<T>(this IHoldTM hold)
+	public static void SetDefaultState<T>(this IHoldTypeMachine hold)
 	{
-		hold.TM.SetDefaultState<T>();
+		hold.TypeMachine.SetDefaultState<T>();
 	}
 
-	public static void SetDefaultState<T>(this IHoldTM hold, T state)
+	public static void SetDefaultState<T>(this IHoldTypeMachine hold, T state)
 	{
-		hold.TM.SetDefaultState(state);
+		hold.TypeMachine.SetDefaultState(state);
 	}
 
 	#endregion
