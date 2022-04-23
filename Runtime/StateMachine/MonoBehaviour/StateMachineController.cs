@@ -31,8 +31,6 @@ namespace StypeMachine
 		{
 			CreateTypeMachine();
 
-			this.
-
 #if UNITY_EDITOR
 			StateMachine.useDebug = useDebug;
 #endif
