@@ -2,6 +2,7 @@
 using UnityEngine;
 using StypeMachine;
 
+[DefaultExecutionOrder(-9999)]
 public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 {
 

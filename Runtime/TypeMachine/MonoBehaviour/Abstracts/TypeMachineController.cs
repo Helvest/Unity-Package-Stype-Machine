@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace StypeMachine
 {
+	[DefaultExecutionOrder(-9999)]
 	public abstract class TypeMachineController<T> : MonoBehaviour, IHoldTypeMachine where T : class
 	{
 
