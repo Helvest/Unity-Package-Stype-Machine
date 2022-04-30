@@ -7,7 +7,7 @@ namespace StypeMachine
 	public abstract class TypeMachineController<T> : MonoBehaviour, IHoldTypeMachine where T : class
 	{
 
-		#region Variables
+		#region Fields
 
 		[Header("TypeMachineController")]
 

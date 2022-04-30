@@ -8,7 +8,7 @@ namespace StypeMachine
 	public class StateMachine<T>
 	{
 
-		#region Variables
+		#region Fields
 
 		public T DefaultState { get; protected set; } = default;
 

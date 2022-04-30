@@ -6,7 +6,7 @@ using StypeMachine;
 public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 {
 
-	#region Variables
+	#region Fields
 
 	[Header("MonoTypeMachine")]
 

@@ -6,7 +6,7 @@ namespace StypeMachine
 	public abstract class StateMachineController<T> : MonoBehaviour, IHoldStateMachine<T> where T : Enum
 	{
 
-		#region Variables
+		#region Fields
 
 		[Header("StateMachineController")]
 
