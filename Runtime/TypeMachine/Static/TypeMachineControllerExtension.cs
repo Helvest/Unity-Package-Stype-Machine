@@ -78,23 +78,4 @@ public static class TypeMachineControllerExtension
 
 	#endregion
 
-	#region DefaultState
-
-	public static void ToDefaultState(this IHoldTypeMachine hold)
-	{
-		hold.TypeMachine.ToDefaultState();
-	}
-
-	public static void SetDefaultState<T>(this IHoldTypeMachine hold)
-	{
-		hold.TypeMachine.SetDefaultState<T>();
-	}
-
-	public static void SetDefaultState<T>(this IHoldTypeMachine hold, T state)
-	{
-		hold.TypeMachine.SetDefaultState(state);
-	}
-
-	#endregion
-
 }

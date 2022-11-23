@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace StypeMachine
 {
-	public abstract class StateMachineController<T> : MonoBehaviour, IHoldStateMachine<T>
+	public abstract class FlagMachineController<T> : MonoBehaviour, IHoldFlagMachine<T>
 	{
 
 		#region Fields
@@ -17,9 +17,9 @@ namespace StypeMachine
 		protected bool canReenterSameState = false;
 
 		[SerializeField]
-		protected T startState = default;
+		protected List<T> startFlags = default;
 
-		public StateMachine<T> StateMachine { get; private set; }
+		public FlagMachine<T> FlagMachine { get; private set; } = default;
 
 		protected bool hasStarted = false;
 
@@ -29,10 +29,10 @@ namespace StypeMachine
 
 		protected virtual void Awake()
 		{
-			CreateTypeMachine();
+			CreateFlagMachine();
 
 #if UNITY_EDITOR
-			StateMachine.useDebug = useDebug;
+			FlagMachine.useDebug = useDebug;
 #endif
 		}
 
@@ -42,9 +42,9 @@ namespace StypeMachine
 			ToStartState();
 		}
 
-		protected virtual void CreateTypeMachine()
+		protected virtual void CreateFlagMachine()
 		{
-			StateMachine = new StateMachine<T>(default, apceptValuesNotIncluded, canReenterSameState);
+			FlagMachine = new FlagMachine<T>(apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -54,12 +54,12 @@ namespace StypeMachine
 
 		protected virtual void ToStartState()
 		{
-			if (!hasStarted || startState == null)
+			if (!hasStarted)
 			{
 				return;
 			}
 
-			this.SetState(startState);
+			this.AddFlags(startFlags);
 		}
 
 		#endregion

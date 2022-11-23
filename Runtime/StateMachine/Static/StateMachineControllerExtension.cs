@@ -48,18 +48,4 @@ public static class StateMachineControllerExtension
 
 	#endregion
 
-	#region DefaultState
-
-	public static void ToDefaultState<T>(this IHoldStateMachine<T> hold)
-	{
-		hold.StateMachine.ToDefaultState();
-	}
-
-	public static void SetDefaultState<T>(this IHoldStateMachine<T> hold, T state)
-	{
-		hold.StateMachine.SetDefaultState(state);
-	}
-
-	#endregion
-
 }

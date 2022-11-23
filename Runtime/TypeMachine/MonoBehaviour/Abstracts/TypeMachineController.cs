@@ -56,7 +56,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			TypeMachine = new TypeMachine(typeof(T), apceptValuesNotIncluded, canReenterSameState);
+			TypeMachine = new TypeMachine(typeof(void), apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -66,7 +66,7 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			TypeMachine.ToDefaultState();
+			TypeMachine.SetState(typeof(void));
 		}
 
 		protected virtual void ToStartState()

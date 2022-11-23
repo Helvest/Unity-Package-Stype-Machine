@@ -10,7 +10,7 @@ namespace StypeMachine
 
 		#region Fields
 
-		public T DefaultState { get; protected set; } = default;
+		private T _state;
 
 		public bool acceptStateNotIncluded = false;
 
@@ -20,24 +20,19 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public StateMachine(T defaultValue = default, bool acceptStateNotIncluded = false, bool canReenterSameState = false)
+		public StateMachine(T firstState = default, bool acceptStateNotIncluded = false, bool canReenterSameState = false)
 		{
 			this.acceptStateNotIncluded = acceptStateNotIncluded;
 			this.canReenterSameState = canReenterSameState;
-			DefaultState = defaultValue;
 
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + ", DefaultValue: " + defaultValue);
+				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + ", firstState: " + firstState);
 			}
 #endif
-
-			if (defaultValue != null)
-			{
-				AddState(defaultValue);
-				_state = defaultValue;
-			}
+			_state = firstState;
+			AddState(firstState);
 		}
 
 		#endregion
@@ -48,8 +43,6 @@ namespace StypeMachine
 		{
 			return _state != null ? _state.Equals(state) : state == null;
 		}
-
-		private T _state;
 
 		public T State
 		{
@@ -82,7 +75,7 @@ namespace StypeMachine
 					return;
 				}
 
-				_stateEventHandler?.ExitState?.Invoke(_state, value);
+				_stateEventHandler?.exitState?.Invoke(_state, value);
 
 				var previousState = _state;
 				_state = value;
@@ -105,7 +98,7 @@ namespace StypeMachine
 				if (valueFound)
 				{
 					_stateEventHandler = newStateEventHandler;
-					_stateEventHandler.EnterState?.Invoke(previousState, value);
+					_stateEventHandler.enterState?.Invoke(previousState, value);
 				}
 				else
 				{
@@ -116,20 +109,24 @@ namespace StypeMachine
 
 		#endregion
 
-		#region Add Remove State
+		#region StateEventHandler
 
 		private class StateEventHandler
 		{
-			public Action<T, T> EnterState;
+			public Action<T, T> enterState;
 
-			public Action UpdateState;
+			public Action updateState;
 
-			public Action<T, T> ExitState;
+			public Action<T, T> exitState;
 		}
 
 		private StateEventHandler _stateEventHandler;
 
 		private readonly Dictionary<T, StateEventHandler> _stateEventHandlerDict = new Dictionary<T, StateEventHandler>();
+
+		#endregion
+
+		#region Add State
 
 		public void AddState(T state, Action<T, T> enterAction = default, Action<T, T> exitAction = default, Action updateAction = default)
 		{
@@ -150,10 +147,20 @@ namespace StypeMachine
 				_stateEventHandlerDict.Add(state, stateEventHandler);
 			}
 
-			stateEventHandler.EnterState = enterAction;
-			stateEventHandler.ExitState = exitAction;
-			stateEventHandler.UpdateState = updateAction;
+			stateEventHandler.enterState = enterAction;
+			stateEventHandler.exitState = exitAction;
+			stateEventHandler.updateState = updateAction;
+
+			//If state is already actif, call the enterAction
+			if (state.Equals(_state))
+			{
+				enterAction?.Invoke(state, state);
+			}
 		}
+
+		#endregion
+
+		#region Remove State
 
 		public void RemoveState(T state)
 		{
@@ -167,35 +174,13 @@ namespace StypeMachine
 			_stateEventHandlerDict.Remove(state);
 		}
 
-		public void UpdateState()
-		{
-			_stateEventHandler?.UpdateState?.Invoke();
-		}
-
 		#endregion
 
-		#region Default State
+		#region Update State
 
-		public void ToDefaultState()
+		public void UpdateState()
 		{
-			State = DefaultState;
-		}
-
-		public virtual void SetDefaultState(T state)
-		{
-#if UNITY_EDITOR
-			if (useDebug)
-			{
-				Debug.Log("Set Default State: " + state);
-			}
-#endif
-
-			DefaultState = state;
-
-			if (state != null && !_stateEventHandlerDict.ContainsKey(state))
-			{
-				AddState(state);
-			}
+			_stateEventHandler?.updateState?.Invoke();
 		}
 
 		#endregion
@@ -210,4 +195,3 @@ namespace StypeMachine
 
 	}
 }
-

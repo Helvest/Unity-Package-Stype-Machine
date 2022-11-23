@@ -8,12 +8,13 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public TypeMachine(Type defaultValue = default, bool acceptStateNotIncluded = true, bool canReenterSameState = false) : 
-			base(defaultValue, acceptStateNotIncluded, canReenterSameState) { }
+		public TypeMachine(Type firstState = default, bool acceptStateNotIncluded = true, bool canReenterSameState = false) :
+			base(firstState, acceptStateNotIncluded, canReenterSameState)
+		{ }
 
 		#endregion
 
-		#region IsState
+		#region Is State
 
 		public bool IsState<t>()
 		{
@@ -27,7 +28,7 @@ namespace StypeMachine
 
 		#endregion
 
-		#region SetState
+		#region Set State
 
 		public void SetState<t>()
 		{
@@ -69,20 +70,5 @@ namespace StypeMachine
 
 		#endregion
 
-		#region Default State
-
-		public void SetDefaultState<t>()
-		{
-			base.SetDefaultState(typeof(t));
-		}
-
-		public void SetDefaultState<t>(t type)
-		{
-			base.SetDefaultState(type.GetType());
-		}
-
-		#endregion
-
 	}
 }
-

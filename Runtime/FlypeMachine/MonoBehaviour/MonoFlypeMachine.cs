@@ -3,7 +3,7 @@ using StypeMachine;
 using UnityEngine;
 
 [DefaultExecutionOrder(-9999)]
-public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
+public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 {
 
 	#region Fields
@@ -24,18 +24,18 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 
 	#region CreateTypeMachine
 
-	protected override void CreateTypeMachine()
+	protected override void CreateFlypeMachine()
 	{
-		base.CreateTypeMachine();
+		base.CreateFlypeMachine();
 
 		foreach (var state in states)
 		{
 			if (state != null)
 			{
-				TypeMachine.AddState(
+				FlypeMachine.AddState(
 					state,
-					enterAction: (P, N) => state.gameObject.SetActive(true),
-					exitAction: (P, N) => state.gameObject.SetActive(false)
+					enterAction: (Flag) => state.gameObject.SetActive(true),
+					exitAction: (Flag) => state.gameObject.SetActive(false)
 				);
 
 				state.gameObject.SetActive(false);
@@ -52,8 +52,8 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 			var prefab = state;
 			MonoBehaviour instance = null;
 
-			TypeMachine.AddState(state,
-				enterAction: (P, N) =>
+			FlypeMachine.AddState(state,
+				enterAction: (P) =>
 				{
 					if (instance != null)
 					{
@@ -64,19 +64,11 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 						instance = Instantiate(prefab, _transformParentForPrefabs);
 					}
 				},
-				exitAction: (P, N) =>
+				exitAction: (P) =>
 				{
 					if (instance != null)
 					{
-						if (P == N)
-						{
-							//Just desactivate because the instance is going to be re-use
-							instance.gameObject.SetActive(false);
-						}
-						else
-						{
-							Destroy(instance.gameObject);
-						}
+						Destroy(instance.gameObject);
 					}
 				}
 			);
