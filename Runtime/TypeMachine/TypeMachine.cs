@@ -8,7 +8,7 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public TypeMachine(Type firstState = default, bool acceptStateNotIncluded = true, bool canReenterSameState = false) :
+		public TypeMachine(Type firstState, bool acceptStateNotIncluded = true, bool canReenterSameState = false) :
 			base(firstState, acceptStateNotIncluded, canReenterSameState)
 		{ }
 

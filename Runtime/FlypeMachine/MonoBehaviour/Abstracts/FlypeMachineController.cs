@@ -11,10 +11,10 @@ namespace StypeMachine
 		[Header("FlypeMachineController")]
 
 		[SerializeField]
-		protected bool apceptValuesNotIncluded = false;
+		protected bool apceptFlagsNotIncluded = false;
 
 		[SerializeField]
-		protected bool canReenterSameState = false;
+		protected bool canReenterSameFlag = false;
 
 		[SerializeField]
 		protected T[] startFlags = default;
@@ -44,7 +44,7 @@ namespace StypeMachine
 
 		protected virtual void CreateFlypeMachine()
 		{
-			FlypeMachine = new FlypeMachine(apceptValuesNotIncluded, canReenterSameState);
+			FlypeMachine = new FlypeMachine(apceptFlagsNotIncluded, canReenterSameFlag);
 		}
 
 		protected virtual void OnEnable()
@@ -54,7 +54,7 @@ namespace StypeMachine
 
 		protected virtual void OnDisable()
 		{
-			FlypeMachine.RemoveAllFlags();
+			FlypeMachine.UnsetAllFlags();
 		}
 
 		protected virtual void ToStartFlags()
@@ -64,7 +64,7 @@ namespace StypeMachine
 				return;
 			}
 
-			this.AddFlags(startFlags);
+			this.SetFlags(startFlags);
 		}
 
 		#endregion

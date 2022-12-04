@@ -9,8 +9,8 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public FlypeMachine(bool acceptStateNotIncluded = true, bool canReenterSameState = false) :
-			base(acceptStateNotIncluded, canReenterSameState)
+		public FlypeMachine(bool acceptFlagsNotIncluded = true, bool canReenterSameFlag = false) :
+			base(acceptFlagsNotIncluded, canReenterSameFlag)
 		{ }
 
 		#endregion
@@ -29,51 +29,51 @@ namespace StypeMachine
 
 		#endregion
 
-		#region Add Flags
+		#region Set Flags
 
-		public void AddFlag<t>()
+		public void SetFlag<t>()
 		{
-			AddFlag(typeof(t));
+			SetFlag(typeof(t));
 		}
 
-		public void AddFlags<t>(params t[] instances)
+		public void SetFlags<t>(params t[] instances)
 		{
 			foreach (var instance in instances)
 			{
-				AddFlag(instance.GetType());
+				SetFlag(instance.GetType());
 			}
 		}
 
-		public void AddFlags<t>(IEnumerable<t> instances)
+		public void SetFlags<t>(IEnumerable<t> instances)
 		{
 			foreach (var instance in instances)
 			{
-				AddFlag(instance.GetType());
+				SetFlag(instance.GetType());
 			}
 		}
 
 		#endregion
 
-		#region Remove Flags
+		#region Unset Flags
 
-		public void RemoveFlag<t>()
+		public void UnsetFlag<t>()
 		{
-			RemoveFlag(typeof(t));
+			UnsetFlag(typeof(t));
 		}
 
-		public void RemoveFlags<t>(params t[] instances)
+		public void UnsetFlags<t>(params t[] instances)
 		{
 			foreach (var instance in instances)
 			{
-				RemoveFlag(instance.GetType());
+				UnsetFlag(instance.GetType());
 			}
 		}
 
-		public void RemoveFlags<t>(IEnumerable<t> instances)
+		public void UnsetFlags<t>(IEnumerable<t> instances)
 		{
 			foreach (var instance in instances)
 			{
-				RemoveFlag(instance.GetType());
+				UnsetFlag(instance.GetType());
 			}
 		}
 
@@ -107,30 +107,30 @@ namespace StypeMachine
 
 		#endregion
 
-		#region Add State
+		#region Add Flag
 
-		public void AddState<t>(Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
+		public void AddFlag<t>(Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
 		{
-			base.AddState(typeof(t), enterAction, exitAction, updateAction);
+			base.AddFlag(typeof(t), enterAction, exitAction, updateAction);
 		}
 
-		public void AddState<t>(t type, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
+		public void AddFlag<t>(t type, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
 		{
-			base.AddState(type.GetType(), enterAction, exitAction, updateAction);
+			base.AddFlag(type.GetType(), enterAction, exitAction, updateAction);
 		}
 
 		#endregion
 
-		#region Remove State
+		#region Remove Flag
 
-		public void RemoveState<t>()
+		public void RemoveFlag<t>()
 		{
-			base.RemoveState(typeof(t));
+			base.RemoveFlag(typeof(t));
 		}
 
-		public void RemoveState<t>(t type)
+		public void RemoveFlag<t>(t type)
 		{
-			base.RemoveState(type.GetType());
+			base.RemoveFlag(type.GetType());
 		}
 
 		#endregion

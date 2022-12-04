@@ -32,34 +32,35 @@ public static class FlagMachineControllerExtension
 
 	#endregion
 
-	#region Add Flag
+	#region Set Flag
 
-	public static bool AddFlag<T>(this IHoldFlagMachine<T> hold, T flag)
+	public static bool SetFlag<T>(this IHoldFlagMachine<T> hold, T flag)
 	{
-		return hold.AddFlag(flag);
+		return hold.FlagMachine.SetFlag(flag);
 	}
 
-	public static bool AddFlags<T>(this IHoldFlagMachine<T> hold, params T[] flags)
+	public static void SetFlags<T>(this IHoldFlagMachine<T> hold, params T[] flags)
 	{
-		return hold.AddFlags(flags);
+		hold.FlagMachine.SetFlags(flags);
 	}
 
-	public static bool AddFlags<T>(this IHoldFlagMachine<T> hold, IEnumerable<T> flags)
+	public static void SetFlags<T>(this IHoldFlagMachine<T> hold, IEnumerable<T> flags)
 	{
-		return hold.AddFlags(flags);
+		hold.FlagMachine.SetFlags(flags);
 	}
 
 	#endregion
 
 	#region Remove Flags
-	public static bool RemoveFlag<T>(this IHoldFlagMachine<T> hold, T value)
+
+	public static bool UnsetFlag<T>(this IHoldFlagMachine<T> hold, T value)
 	{
-		return hold.RemoveFlag(value);
+		return hold.FlagMachine.UnsetFlag(value);
 	}
 
-	public static void RemoveAllFlags<T>(this IHoldFlagMachine<T> hold)
+	public static void UnsetAllFlags<T>(this IHoldFlagMachine<T> hold)
 	{
-		hold.RemoveAllFlags();
+		hold.FlagMachine.UnsetAllFlags();
 	}
 
 	#endregion
@@ -68,30 +69,30 @@ public static class FlagMachineControllerExtension
 
 	public static void ReplaceFlags<T>(this IHoldFlagMachine<T> hold, params T[] flags)
 	{
-		hold.ReplaceFlags(flags);
+		hold.FlagMachine.ReplaceFlags(flags);
 	}
 
 	public static void ReplaceFlags<T>(this IHoldFlagMachine<T> hold, IEnumerable<T> flags)
 	{
-		hold.ReplaceFlags(flags);
+		hold.FlagMachine.ReplaceFlags(flags);
 	}
 
 	#endregion
 
-	#region Add State
+	#region Add Flag
 
-	public static void AddState<T>(this IHoldFlagMachine<T> hold, T state, Action<T> enterAction = default, Action<T> exitAction = default, Action updateAction = default)
+	public static void AddFlag<T>(this IHoldFlagMachine<T> hold, T state, Action<T> enterAction = default, Action<T> exitAction = default, Action updateAction = default)
 	{
-		hold.FlagMachine.AddState(state, enterAction, exitAction, updateAction);
+		hold.FlagMachine.AddFlag(state, enterAction, exitAction, updateAction);
 	}
 
 	#endregion
 
-	#region Remove State
+	#region Remove Flag
 
-	public static void RemoveState<T>(this IHoldFlagMachine<T> hold, T state)
+	public static void RemoveFlag<T>(this IHoldFlagMachine<T> hold, T state)
 	{
-		hold.FlagMachine.RemoveState(state);
+		hold.FlagMachine.RemoveFlag(state);
 	}
 
 	#endregion

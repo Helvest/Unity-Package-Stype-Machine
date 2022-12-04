@@ -20,7 +20,7 @@ namespace StypeMachine
 		[SerializeField]
 		protected T startState = default;
 
-		public TypeMachine TypeMachine { get; private set; }
+		public TypeMachine TypeMachine { get; private set; } = default;
 
 		protected bool hasStarted = false;
 
@@ -56,7 +56,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			TypeMachine = new TypeMachine(typeof(void), apceptValuesNotIncluded, canReenterSameState);
+			TypeMachine = new TypeMachine(startState.GetType(), apceptValuesNotIncluded, canReenterSameState);
 		}
 
 		protected virtual void OnEnable()
@@ -64,14 +64,9 @@ namespace StypeMachine
 			ToStartState();
 		}
 
-		protected virtual void OnDisable()
-		{
-			TypeMachine.SetState(typeof(void));
-		}
-
 		protected virtual void ToStartState()
 		{
-			if (!hasStarted || startState == null)
+			if (!hasStarted)
 			{
 				return;
 			}

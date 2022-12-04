@@ -10,25 +10,25 @@ namespace StypeMachine
 
 		#region Fields
 
-		public bool acceptStateNotIncluded = false;
+		public bool acceptFlagsNotIncluded = false;
 
-		public bool canReenterSameState = false;
+		public bool canReenterSameFlag = false;
 
-		private readonly Dictionary<T, StateEventHandler> _flags = new Dictionary<T, StateEventHandler>();
+		private readonly Dictionary<T, FlagEventHandler> _flags = new Dictionary<T, FlagEventHandler>();
 
 		#endregion
 
 		#region Constructor
 
-		public FlagMachine(bool acceptStateNotIncluded = false, bool canReenterSameState = false)
+		public FlagMachine(bool acceptFlagsNotIncluded = false, bool canReenterSameFlag = false)
 		{
-			this.acceptStateNotIncluded = acceptStateNotIncluded;
-			this.canReenterSameState = canReenterSameState;
+			this.acceptFlagsNotIncluded = acceptFlagsNotIncluded;
+			this.canReenterSameFlag = canReenterSameFlag;
 
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + " - canReenterSameState: " + canReenterSameState);
+				Debug.Log("Constructor - acceptFlagsNotIncluded: " + acceptFlagsNotIncluded + " - canReenterSameFlag: " + canReenterSameFlag);
 			}
 #endif
 		}
@@ -77,9 +77,9 @@ namespace StypeMachine
 
 		#endregion
 
-		#region Add Flags
+		#region Set Flags
 
-		public bool AddFlag(T value)
+		public bool SetFlag(T value)
 		{
 			if (value == null)
 			{
@@ -88,23 +88,23 @@ namespace StypeMachine
 
 			bool containsKey = _flags.ContainsKey(value);
 
-			if (!canReenterSameState && containsKey)
+			if (!canReenterSameFlag && containsKey)
 			{
 				return true;
 			}
 
-			bool valueFound = _stateEventHandlerDict.TryGetValue(value, out var newStateEventHandler);
+			bool valueFound = _flagEventHandlerDict.TryGetValue(value, out var newStateEventHandler);
 
-			if (!acceptStateNotIncluded && !valueFound)
+			if (!acceptFlagsNotIncluded && !valueFound)
 			{
-				Debug.LogWarning("Set State - Value [" + value + "] not apcepted");
+				Debug.LogWarning("Set Flag - Value [" + value + "] not apcepted");
 				return false;
 			}
 
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Add Flag " + value);
+				Debug.Log("Set Flag " + value);
 			}
 #endif
 
@@ -115,33 +115,33 @@ namespace StypeMachine
 
 			if (valueFound)
 			{
-				newStateEventHandler.enterState?.Invoke(value);
+				newStateEventHandler.enterFlag?.Invoke(value);
 			}
 
 			return true;
 		}
 
-		public void AddFlags(params T[] flags)
+		public void SetFlags(params T[] flags)
 		{
 			foreach (var flag in flags)
 			{
-				AddFlag(flag);
+				SetFlag(flag);
 			}
 		}
 
-		public void AddFlags(IEnumerable<T> flags)
+		public void SetFlags(IEnumerable<T> flags)
 		{
 			foreach (var flag in flags)
 			{
-				AddFlag(flag);
+				SetFlag(flag);
 			}
 		}
 
 		#endregion
 
-		#region Remove Flags
+		#region Unset Flags
 
-		public bool RemoveFlag(T value)
+		public bool UnsetFlag(T value)
 		{
 			if (!_flags.TryGetValue(value, out var stateEventHandler))
 			{
@@ -157,34 +157,34 @@ namespace StypeMachine
 
 			_flags.Remove(value);
 
-			stateEventHandler?.exitState?.Invoke(value);
+			stateEventHandler?.exitFlag?.Invoke(value);
 
 			return true;
 		}
 
-		public void RemoveFlags(params T[] flags)
+		public void UnsetFlags(params T[] flags)
 		{
 			foreach (var flag in flags)
 			{
-				RemoveFlag(flag);
+				UnsetFlag(flag);
 			}
 		}
 
-		public void RemoveFlags(IEnumerable<T> flags)
+		public void UnsetFlags(IEnumerable<T> flags)
 		{
 			foreach (var flag in flags)
 			{
-				RemoveFlag(flag);
+				UnsetFlag(flag);
 			}
 		}
 
-		public void RemoveAllFlags()
+		public void UnsetAllFlags()
 		{
 			var flags = _flags.Keys.ToList();
 
 			foreach (var item in flags)
 			{
-				RemoveFlag(item);
+				UnsetFlag(item);
 			}
 		}
 
@@ -210,7 +210,7 @@ namespace StypeMachine
 			{
 				if (!flags.Contains(oldFlag))
 				{
-					RemoveFlag(oldFlag);
+					UnsetFlag(oldFlag);
 				}
 			}
 
@@ -218,32 +218,32 @@ namespace StypeMachine
 			{
 				if (!oldFlags.Contains(newFlag))
 				{
-					AddFlag(newFlag);
+					SetFlag(newFlag);
 				}
 			}
 		}
 
 		#endregion
 
-		#region Add Remove State
+		#region Add Flags
 
-		private class StateEventHandler
+		private class FlagEventHandler
 		{
-			public Action<T> enterState;
+			public Action<T> enterFlag;
 
-			public Action updateState;
+			public Action updateFlag;
 
-			public Action<T> exitState;
+			public Action<T> exitFlag;
 		}
 
-		private readonly Dictionary<T, StateEventHandler> _stateEventHandlerDict = new Dictionary<T, StateEventHandler>();
+		private readonly Dictionary<T, FlagEventHandler> _flagEventHandlerDict = new Dictionary<T, FlagEventHandler>();
 
-		public void AddState(T state, Action<T> enterAction = default, Action<T> exitAction = default, Action updateAction = default)
+		public void AddFlag(T flag, Action<T> enterAction = default, Action<T> exitAction = default, Action updateAction = default)
 		{
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Add State: " + state
+				Debug.Log("Add Flag: " + flag
 					+ "\nEnter: " + (enterAction != null ? $"{enterAction.Method.ReflectedType}.{enterAction.Method.Name}()" : "null")
 					+ "\nExit: " + (exitAction != null ? $"{exitAction.Method.ReflectedType}.{exitAction.Method.Name}()" : "null")
 					+ "\nUpdate: " + (updateAction != null ? $"{updateAction.Method.ReflectedType}.{updateAction.Method.Name}()" : "null")
@@ -251,36 +251,58 @@ namespace StypeMachine
 			}
 #endif
 
-			if (!_stateEventHandlerDict.TryGetValue(state, out var stateEventHandler))
+			if (!_flagEventHandlerDict.TryGetValue(flag, out var stateEventHandler))
 			{
-				stateEventHandler = new StateEventHandler();
-				_stateEventHandlerDict.Add(state, stateEventHandler);
+				stateEventHandler = new FlagEventHandler();
+				_flagEventHandlerDict.Add(flag, stateEventHandler);
 			}
 
-			stateEventHandler.enterState = enterAction;
-			stateEventHandler.exitState = exitAction;
-			stateEventHandler.updateState = updateAction;
+			stateEventHandler.enterFlag = enterAction;
+			stateEventHandler.exitFlag = exitAction;
+			stateEventHandler.updateFlag = updateAction;
 		}
 
-		public bool RemoveState(T state)
+		#endregion
+
+		#region Remove Flags
+
+		public bool RemoveFlag(T state)
 		{
 #if UNITY_EDITOR
 			if (useDebug)
 			{
-				Debug.Log("Remove State: " + state);
+				Debug.Log("Remove Flag: " + state);
 			}
 #endif
 
-			return _stateEventHandlerDict.Remove(state);
+			return _flagEventHandlerDict.Remove(state);
 		}
 
-		public void UpdateState()
+		public void RemoveAllFlag(T state)
+		{
+#if UNITY_EDITOR
+			if (useDebug)
+			{
+				Debug.Log("Remove Flag: " + state);
+			}
+#endif
+
+			UnsetAllFlags();
+
+			_flagEventHandlerDict.Clear();
+		}
+
+		#endregion
+
+		#region Update Flags
+
+		public void UpdateFlags()
 		{
 			foreach (var stateEventHandler in _flags.Values)
 			{
 				if (stateEventHandler != null)
 				{
-					stateEventHandler?.updateState?.Invoke();
+					stateEventHandler?.updateFlag?.Invoke();
 				}
 			}
 		}

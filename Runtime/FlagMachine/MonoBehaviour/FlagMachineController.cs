@@ -11,10 +11,10 @@ namespace StypeMachine
 		[Header("StateMachineController")]
 
 		[SerializeField]
-		protected bool apceptValuesNotIncluded = false;
+		protected bool apceptFlagNotIncluded = false;
 
 		[SerializeField]
-		protected bool canReenterSameState = false;
+		protected bool canReenterSameFlag = false;
 
 		[SerializeField]
 		protected List<T> startFlags = default;
@@ -44,7 +44,7 @@ namespace StypeMachine
 
 		protected virtual void CreateFlagMachine()
 		{
-			FlagMachine = new FlagMachine<T>(apceptValuesNotIncluded, canReenterSameState);
+			FlagMachine = new FlagMachine<T>(apceptFlagNotIncluded, canReenterSameFlag);
 		}
 
 		protected virtual void OnEnable()
@@ -59,7 +59,7 @@ namespace StypeMachine
 				return;
 			}
 
-			this.AddFlags(startFlags);
+			this.SetFlags(startFlags);
 		}
 
 		#endregion

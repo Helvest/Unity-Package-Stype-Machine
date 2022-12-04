@@ -8,17 +8,17 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 
 	#region Fields
 
-	[Header("MonoTypeMachine")]
+	[Header("MonoFlypeMachine")]
 
 	[SerializeField]
-	protected List<MonoBehaviour> states = default;
+	protected List<MonoBehaviour> flags = default;
 
 	[Header("Prefabs")]
 	[SerializeField]
 	private Transform _transformParentForPrefabs = default;
 
 	[SerializeField]
-	protected List<MonoBehaviour> statesPrefab = default;
+	protected List<MonoBehaviour> flagPrefab = default;
 
 	#endregion
 
@@ -28,11 +28,11 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 	{
 		base.CreateFlypeMachine();
 
-		foreach (var state in states)
+		foreach (var state in flags)
 		{
 			if (state != null)
 			{
-				FlypeMachine.AddState(
+				FlypeMachine.AddFlag(
 					state,
 					enterAction: (Flag) => state.gameObject.SetActive(true),
 					exitAction: (Flag) => state.gameObject.SetActive(false)
@@ -42,17 +42,17 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 			}
 		}
 
-		foreach (var state in statesPrefab)
+		foreach (var flag in flagPrefab)
 		{
-			if (state == null)
+			if (flag == null)
 			{
 				continue;
 			}
 
-			var prefab = state;
+			var prefab = flag;
 			MonoBehaviour instance = null;
 
-			FlypeMachine.AddState(state,
+			FlypeMachine.AddFlag(flag,
 				enterAction: (P) =>
 				{
 					if (instance != null)

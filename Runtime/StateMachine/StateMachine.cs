@@ -12,7 +12,7 @@ namespace StypeMachine
 
 		private T _state;
 
-		public bool acceptStateNotIncluded = false;
+		public bool acceptStatesNotIncluded = false;
 
 		public bool canReenterSameState = false;
 
@@ -20,9 +20,9 @@ namespace StypeMachine
 
 		#region Constructor
 
-		public StateMachine(T firstState = default, bool acceptStateNotIncluded = false, bool canReenterSameState = false)
+		public StateMachine(T firstState, bool acceptStateNotIncluded = false, bool canReenterSameState = false)
 		{
-			this.acceptStateNotIncluded = acceptStateNotIncluded;
+			this.acceptStatesNotIncluded = acceptStateNotIncluded;
 			this.canReenterSameState = canReenterSameState;
 
 #if UNITY_EDITOR
@@ -31,6 +31,7 @@ namespace StypeMachine
 				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + ", firstState: " + firstState);
 			}
 #endif
+
 			_state = firstState;
 			AddState(firstState);
 		}
@@ -52,6 +53,12 @@ namespace StypeMachine
 			{
 				if (value == null)
 				{
+#if UNITY_EDITOR
+					if (useDebug)
+					{
+						Debug.Log("Set State - Can not be null");
+					}
+#endif
 					return;
 				}
 
@@ -65,11 +72,12 @@ namespace StypeMachine
 					}
 #endif
 					return;
+
 				}
 
 				bool valueFound = _stateEventHandlerDict.TryGetValue(value, out var newStateEventHandler);
 
-				if (!acceptStateNotIncluded && !valueFound)
+				if (!acceptStatesNotIncluded && !valueFound)
 				{
 					Debug.LogWarning("Set State - Value [" + value + "] not apcepted");
 					return;

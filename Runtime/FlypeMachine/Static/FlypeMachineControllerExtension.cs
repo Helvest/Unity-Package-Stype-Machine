@@ -18,40 +18,40 @@ public static class FlypeMachineControllerExtension
 
 	#endregion
 
-	#region Add Flags
+	#region Set Flag
 
-	public static void AddFlag<t>(this IHoldFlypeMachine hold)
+	public static void SetFlag<t>(this IHoldFlypeMachine hold)
 	{
-		hold.FlypeMachine.AddFlag<t>();
+		hold.FlypeMachine.SetFlag<t>();
 	}
 
-	public static void AddFlags<t>(this IHoldFlypeMachine hold, params t[] instances)
+	public static void SetFlags<t>(this IHoldFlypeMachine hold, params t[] instances)
 	{
-		hold.FlypeMachine.AddFlags(instances);
+		hold.FlypeMachine.SetFlags(instances);
 	}
 
-	public static void AddFlags<t>(this IHoldFlypeMachine hold, IEnumerable<t> instances)
+	public static void SetFlags<t>(this IHoldFlypeMachine hold, IEnumerable<t> instances)
 	{
-		hold.FlypeMachine.AddFlags(instances);
+		hold.FlypeMachine.SetFlags(instances);
 	}
 
 	#endregion
 
-	#region Remove Flags
+	#region Unset Flags
 
-	public static void RemoveFlag<t>(this IHoldFlypeMachine hold)
+	public static void UnsetFlag<t>(this IHoldFlypeMachine hold)
 	{
-		hold.FlypeMachine.RemoveFlag<t>();
+		hold.FlypeMachine.UnsetFlag<t>();
 	}
 
-	public static void RemoveFlags<t>(this IHoldFlypeMachine hold, params t[] instances)
+	public static void UnsetFlags<t>(this IHoldFlypeMachine hold, params t[] instances)
 	{
-		hold.FlypeMachine.RemoveFlags(instances);
+		hold.FlypeMachine.UnsetFlags(instances);
 	}
 
-	public static void RemoveFlags<t>(this IHoldFlypeMachine hold, IEnumerable<t> instances)
+	public static void UnsetFlags<t>(this IHoldFlypeMachine hold, IEnumerable<t> instances)
 	{
-		hold.FlypeMachine.RemoveFlags(instances);
+		hold.FlypeMachine.UnsetFlags(instances);
 	}
 
 	#endregion
@@ -70,35 +70,35 @@ public static class FlypeMachineControllerExtension
 
 	#endregion
 
-	#region AddState
+	#region Add Flag
 
-	public static void AddState<T>(this IHoldFlypeMachine hold, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
+	public static void AddFlag<T>(this IHoldFlypeMachine hold, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
 	{
-		hold.FlypeMachine.AddState<T>(enterAction, exitAction, updateAction);
+		hold.FlypeMachine.AddFlag<T>(enterAction, exitAction, updateAction);
 	}
 
-	public static void AddState<T>(this IHoldFlypeMachine hold, T state, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
+	public static void AddFlag<T>(this IHoldFlypeMachine hold, T state, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
 	{
-		hold.FlypeMachine.AddState(state, enterAction, exitAction, updateAction);
+		hold.FlypeMachine.AddFlag(state, enterAction, exitAction, updateAction);
 	}
 
-	public static void AddState(this IHoldFlypeMachine hold, Type state, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
+	public static void AddFlag(this IHoldFlypeMachine hold, Type state, Action<Type> enterAction = default, Action<Type> exitAction = default, Action updateAction = default)
 	{
-		hold.FlypeMachine.AddState(state, enterAction, exitAction, updateAction);
+		hold.FlypeMachine.AddFlag(state, enterAction, exitAction, updateAction);
 	}
 
 	#endregion
 
-	#region RemoveState
+	#region Remove Flag
 
-	public static void RemoveState<T>(this IHoldFlypeMachine hold)
+	public static void RemoveFlag<T>(this IHoldFlypeMachine hold)
 	{
-		hold.FlypeMachine.RemoveState<T>();
+		hold.FlypeMachine.RemoveFlag<T>();
 	}
 
-	public static void RemoveState<T>(this IHoldFlypeMachine hold, T state)
+	public static void RemoveFlag<T>(this IHoldFlypeMachine hold, T state)
 	{
-		hold.FlypeMachine.RemoveState(state);
+		hold.FlypeMachine.RemoveFlag(state);
 	}
 
 	#endregion
