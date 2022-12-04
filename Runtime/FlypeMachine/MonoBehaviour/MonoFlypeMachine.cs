@@ -32,13 +32,13 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 		{
 			if (state != null)
 			{
+				state.gameObject.SetActive(false);
+
 				FlypeMachine.AddFlag(
 					state,
 					enterAction: (Flag) => state.gameObject.SetActive(true),
 					exitAction: (Flag) => state.gameObject.SetActive(false)
 				);
-
-				state.gameObject.SetActive(false);
 			}
 		}
 

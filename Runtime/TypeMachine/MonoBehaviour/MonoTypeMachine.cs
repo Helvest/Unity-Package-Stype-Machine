@@ -32,13 +32,13 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 		{
 			if (state != null)
 			{
+				state.gameObject.SetActive(false);
+
 				TypeMachine.AddState(
 					state,
 					enterAction: (P, N) => state.gameObject.SetActive(true),
 					exitAction: (P, N) => state.gameObject.SetActive(false)
 				);
-
-				state.gameObject.SetActive(false);
 			}
 		}
 
@@ -66,17 +66,19 @@ public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 				},
 				exitAction: (P, N) =>
 				{
-					if (instance != null)
+					if (instance == null)
 					{
-						if (P == N)
-						{
-							//Just desactivate because the instance is going to be re-use
-							instance.gameObject.SetActive(false);
-						}
-						else
-						{
-							Destroy(instance.gameObject);
-						}
+						return;
+					}
+
+					if (P == N)
+					{
+						//Just desactivate because the instance is going to be re-use
+						instance.gameObject.SetActive(false);
+					}
+					else
+					{
+						Destroy(instance.gameObject);
 					}
 				}
 			);
