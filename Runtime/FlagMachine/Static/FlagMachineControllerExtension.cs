@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class FlagMachineControllerExtension
 {
@@ -37,11 +38,6 @@ public static class FlagMachineControllerExtension
 	public static bool SetFlag<T>(this IHoldFlagMachine<T> hold, T flag)
 	{
 		return hold.FlagMachine.SetFlag(flag);
-	}
-
-	public static void SetFlags<T>(this IHoldFlagMachine<T> hold, params T[] flags)
-	{
-		hold.FlagMachine.SetFlags(flags);
 	}
 
 	public static void SetFlags<T>(this IHoldFlagMachine<T> hold, IEnumerable<T> flags)

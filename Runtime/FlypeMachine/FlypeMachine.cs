@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace StypeMachine
 {
@@ -33,22 +34,21 @@ namespace StypeMachine
 
 		public void SetFlag<t>()
 		{
-			SetFlag(typeof(t));
+			base.SetFlag(typeof(t));
 		}
 
-		public void SetFlags<t>(params t[] instances)
+		public void SetFlag<t>(t instance)
 		{
-			foreach (var instance in instances)
-			{
-				SetFlag(instance.GetType());
-			}
+			Type type = instance.GetType();
+			UnityEngine.Debug.Log("type: " + type);
+			base.SetFlag(type);
 		}
 
 		public void SetFlags<t>(IEnumerable<t> instances)
 		{
 			foreach (var instance in instances)
 			{
-				SetFlag(instance.GetType());
+				base.SetFlag(instance.GetType());
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace StypeMachine
 				types.Add(instance.GetType());
 			}
 
-			ReplaceFlagsIntern(types);
+			ReplaceFlags(types);
 		}
 
 		public void ReplaceFlags<t>(IEnumerable<t> instances)
@@ -102,7 +102,7 @@ namespace StypeMachine
 				types.Add(instance.GetType());
 			}
 
-			ReplaceFlagsIntern(types);
+			ReplaceFlags(types);
 		}
 
 		#endregion

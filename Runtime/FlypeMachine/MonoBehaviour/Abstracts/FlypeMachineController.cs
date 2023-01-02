@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace StypeMachine
 {
@@ -17,7 +19,7 @@ namespace StypeMachine
 		protected bool canReenterSameFlag = false;
 
 		[SerializeField]
-		protected T[] startFlags = default;
+		protected List<T> startFlags = default;
 
 		public FlypeMachine FlypeMachine { get; private set; }
 
@@ -30,21 +32,15 @@ namespace StypeMachine
 		protected virtual void Awake()
 		{
 			CreateFlypeMachine();
-
-#if UNITY_EDITOR
-			FlypeMachine.useDebug = useDebug;
-#endif
-		}
-
-		protected virtual void Start()
-		{
-			hasStarted = true;
-			ToStartFlags();
 		}
 
 		protected virtual void CreateFlypeMachine()
 		{
+			Debug.Log("CreateFlypeMachine 1");
 			FlypeMachine = new FlypeMachine(apceptFlagsNotIncluded, canReenterSameFlag);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			FlypeMachine.useDebugLog = _useDebugLog;
+#endif
 		}
 
 		protected virtual void OnEnable()
@@ -55,14 +51,17 @@ namespace StypeMachine
 		protected virtual void OnDisable()
 		{
 			FlypeMachine.UnsetAllFlags();
+			hasStarted = false;
 		}
 
 		protected virtual void ToStartFlags()
 		{
-			if (!hasStarted)
+			if (hasStarted)
 			{
 				return;
 			}
+
+			hasStarted = true;
 
 			this.SetFlags(startFlags);
 		}
@@ -71,11 +70,24 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 
 		[Header("Debug")]
 		[SerializeField]
-		protected bool useDebug = false;
+		protected bool _useDebugLog = false;
+
+		public bool UseDebugLog
+		{
+			get { return FlypeMachine != null ? FlypeMachine.useDebugLog : _useDebugLog; }
+			set { 
+				_useDebugLog = value;
+
+				if (FlypeMachine != null)
+				{
+					FlypeMachine.useDebugLog = _useDebugLog;
+				}
+			}
+		}
 
 #endif
 

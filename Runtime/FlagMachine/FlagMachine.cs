@@ -25,8 +25,8 @@ namespace StypeMachine
 			this.acceptFlagsNotIncluded = acceptFlagsNotIncluded;
 			this.canReenterSameFlag = canReenterSameFlag;
 
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Constructor - acceptFlagsNotIncluded: " + acceptFlagsNotIncluded + " - canReenterSameFlag: " + canReenterSameFlag);
 			}
@@ -101,8 +101,8 @@ namespace StypeMachine
 				return false;
 			}
 
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Set Flag " + value);
 			}
@@ -119,14 +119,6 @@ namespace StypeMachine
 			}
 
 			return true;
-		}
-
-		public void SetFlags(params T[] flags)
-		{
-			foreach (var flag in flags)
-			{
-				SetFlag(flag);
-			}
 		}
 
 		public void SetFlags(IEnumerable<T> flags)
@@ -148,8 +140,8 @@ namespace StypeMachine
 				return false;
 			}
 
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Remove Flag " + value);
 			}
@@ -192,17 +184,7 @@ namespace StypeMachine
 
 		#region Replace Flags
 
-		public void ReplaceFlags(params T[] flags)
-		{
-			ReplaceFlagsIntern(flags.ToList());
-		}
-
 		public void ReplaceFlags(IEnumerable<T> flags)
-		{
-			ReplaceFlagsIntern(flags);
-		}
-
-		protected void ReplaceFlagsIntern(IEnumerable<T> flags)
 		{
 			var oldFlags = _flags.Keys.ToList();
 
@@ -229,19 +211,19 @@ namespace StypeMachine
 
 		private class FlagEventHandler
 		{
-			public Action<T> enterFlag;
+			public Action<T> enterFlag = default;
 
-			public Action updateFlag;
+			public Action updateFlag = default;
 
-			public Action<T> exitFlag;
+			public Action<T> exitFlag = default;
 		}
 
 		private readonly Dictionary<T, FlagEventHandler> _flagEventHandlerDict = new Dictionary<T, FlagEventHandler>();
 
 		public void AddFlag(T flag, Action<T> enterAction = default, Action<T> exitAction = default, Action updateAction = default)
 		{
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Add Flag: " + flag
 					+ "\nEnter: " + (enterAction != null ? $"{enterAction.Method.ReflectedType}.{enterAction.Method.Name}()" : "null")
@@ -268,8 +250,8 @@ namespace StypeMachine
 
 		public bool RemoveFlag(T state)
 		{
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Remove Flag: " + state);
 			}
@@ -280,8 +262,8 @@ namespace StypeMachine
 
 		public void RemoveAllFlag(T state)
 		{
-#if UNITY_EDITOR
-			if (useDebug)
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (useDebugLog)
 			{
 				Debug.Log("Remove Flag: " + state);
 			}
@@ -311,8 +293,8 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
-		public bool useDebug = false;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+		public bool useDebugLog = false;
 #endif
 
 		#endregion

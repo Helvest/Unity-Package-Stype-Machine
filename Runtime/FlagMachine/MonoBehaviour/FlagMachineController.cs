@@ -31,8 +31,8 @@ namespace StypeMachine
 		{
 			CreateFlagMachine();
 
-#if UNITY_EDITOR
-			FlagMachine.useDebug = useDebug;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			FlagMachine.useDebugLog = useDebug;
 #endif
 		}
 
@@ -66,7 +66,7 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 
 		[Header("Debug")]
 		[SerializeField]

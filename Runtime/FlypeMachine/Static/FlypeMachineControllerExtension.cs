@@ -25,9 +25,9 @@ public static class FlypeMachineControllerExtension
 		hold.FlypeMachine.SetFlag<t>();
 	}
 
-	public static void SetFlags<t>(this IHoldFlypeMachine hold, params t[] instances)
+	public static void SetFlag<t>(this IHoldFlypeMachine hold, t instances)
 	{
-		hold.FlypeMachine.SetFlags(instances);
+		hold.FlypeMachine.SetFlag(instances);
 	}
 
 	public static void SetFlags<t>(this IHoldFlypeMachine hold, IEnumerable<t> instances)

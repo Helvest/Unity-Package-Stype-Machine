@@ -31,7 +31,7 @@ namespace StypeMachine
 		{
 			CreateTypeMachine();
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 			StateMachine.useDebug = useDebug;
 #endif
 		}
@@ -66,7 +66,7 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 
 		[Header("Debug")]
 		[SerializeField]

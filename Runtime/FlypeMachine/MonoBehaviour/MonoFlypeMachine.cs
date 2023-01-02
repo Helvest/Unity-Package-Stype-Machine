@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using StypeMachine;
 using UnityEngine;
+using static UnityEngine.Random;
 
 [DefaultExecutionOrder(-9999)]
 public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
@@ -26,19 +28,34 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 
 	protected override void CreateFlypeMachine()
 	{
+		Debug.Log("CreateFlypeMachine 2");
 		base.CreateFlypeMachine();
 
-		foreach (var state in flags)
+		foreach (var flag in flags)
 		{
-			if (state != null)
+			if (flag != null)
 			{
-				state.gameObject.SetActive(false);
+				if (!startFlags.Contains(flag))
+				{
+					flag.gameObject.SetActive(false);
+				}
 
 				FlypeMachine.AddFlag(
-					state,
-					enterAction: (Flag) => state.gameObject.SetActive(true),
-					exitAction: (Flag) => state.gameObject.SetActive(false)
-				);
+					flag,
+					enterAction: (P) =>
+					{
+						if (flag != null)
+						{
+							flag.gameObject.SetActive(true);
+						}
+					},
+					exitAction: (P) =>
+					{
+						if (flag != null)
+						{
+							flag.gameObject.SetActive(false);
+						}
+					});
 			}
 		}
 
@@ -76,5 +93,45 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 	}
 
 	#endregion
+
+	#region DebugLog
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+	[Header("Debug")]
+	[SerializeField]
+	private bool _autoSetActiveFlags = false;
+	[SerializeField]
+	private bool _startFlagActiveValueToSet = true;
+	[SerializeField]
+	private bool _flagActiveValueToSet = false;
+
+
+	protected virtual void OnValidate()
+	{
+		if (_autoSetActiveFlags)
+		{
+			_autoSetActiveFlags = false;
+
+			foreach (var flag in flags)
+			{
+				if (flag != null)
+				{
+					if (startFlags.Contains(flag))
+					{
+						flag.gameObject.SetActive(_startFlagActiveValueToSet);
+					}
+					else
+					{
+						flag.gameObject.SetActive(_flagActiveValueToSet);
+					}
+				}
+			}
+		}
+	}
+
+#endif
+
+	#endregion DebugLog
 
 }

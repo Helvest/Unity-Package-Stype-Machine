@@ -25,7 +25,7 @@ namespace StypeMachine
 			this.acceptStatesNotIncluded = acceptStateNotIncluded;
 			this.canReenterSameState = canReenterSameState;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 			if (useDebug)
 			{
 				Debug.Log("Constructor - acceptStateNotIncluded: " + acceptStateNotIncluded + ", firstState: " + firstState);
@@ -53,7 +53,7 @@ namespace StypeMachine
 			{
 				if (value == null)
 				{
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 					if (useDebug)
 					{
 						Debug.Log("Set State - Can not be null");
@@ -65,7 +65,7 @@ namespace StypeMachine
 				// if the "new state" is the current one, we do nothing and exit
 				if (!canReenterSameState && value.Equals(_state))
 				{
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 					if (useDebug)
 					{
 						Debug.Log("Set State - Same state [" + value + "], do nothing");
@@ -88,7 +88,7 @@ namespace StypeMachine
 				var previousState = _state;
 				_state = value;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 				if (useDebug)
 				{
 					if (previousState == null)
@@ -138,7 +138,7 @@ namespace StypeMachine
 
 		public void AddState(T state, Action<T, T> enterAction = default, Action<T, T> exitAction = default, Action updateAction = default)
 		{
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 			if (useDebug)
 			{
 				Debug.Log("Add State: " + state
@@ -172,7 +172,7 @@ namespace StypeMachine
 
 		public void RemoveState(T state)
 		{
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 			if (useDebug)
 			{
 				Debug.Log("Remove State: " + state);
@@ -195,7 +195,7 @@ namespace StypeMachine
 
 		#region Debug
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 		public bool useDebug = false;
 #endif
 
