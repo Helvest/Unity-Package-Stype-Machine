@@ -1,6 +1,6 @@
 {
   "name": "com.helvest.stypemachine",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "displayName": "Stype Machine",
   "description": "System for creating State Machines and State Patterns,\nwith options to use any types as state and even active multiples states.\n\r\n- StateMachine (For State Machine)\r\n- TypeMachine (For State Pattern)\r\n- FlagMachine (For State Machine with Flags)\r\n- FlypeMachine (For State Pattern with Flags)",
   "keywords": [
