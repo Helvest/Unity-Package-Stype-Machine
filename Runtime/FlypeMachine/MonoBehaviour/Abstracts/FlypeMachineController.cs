@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace StypeMachine
 {
@@ -36,7 +35,6 @@ namespace StypeMachine
 
 		protected virtual void CreateFlypeMachine()
 		{
-			Debug.Log("CreateFlypeMachine 1");
 			FlypeMachine = new FlypeMachine(apceptFlagsNotIncluded, canReenterSameFlag);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			FlypeMachine.useDebugLog = _useDebugLog;

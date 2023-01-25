@@ -162,6 +162,7 @@ namespace StypeMachine
 			//If state is already actif, call the enterAction
 			if (state.Equals(_state))
 			{
+				_stateEventHandler = stateEventHandler;
 				enterAction?.Invoke(state, state);
 			}
 		}

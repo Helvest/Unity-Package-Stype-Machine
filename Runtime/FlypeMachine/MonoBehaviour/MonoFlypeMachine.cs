@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using StypeMachine;
 using UnityEngine;
-using static UnityEngine.Random;
 
 [DefaultExecutionOrder(-9999)]
 public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
@@ -28,7 +26,6 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 
 	protected override void CreateFlypeMachine()
 	{
-		Debug.Log("CreateFlypeMachine 2");
 		base.CreateFlypeMachine();
 
 		foreach (var flag in flags)
@@ -105,7 +102,6 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 	private bool _startFlagActiveValueToSet = true;
 	[SerializeField]
 	private bool _flagActiveValueToSet = false;
-
 
 	protected virtual void OnValidate()
 	{
