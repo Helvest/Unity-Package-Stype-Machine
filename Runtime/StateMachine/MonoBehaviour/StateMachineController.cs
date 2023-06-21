@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StypeMachine
+namespace HFSM
 {
-	public abstract class StateMachineController<T> : MonoBehaviour, IHoldStateMachine<T>
+	public abstract class StateMachineController<TStateId> : MonoBehaviour, IHoldStateMachine<TStateId>
 	{
 
 		#region Fields
@@ -17,9 +17,9 @@ namespace StypeMachine
 		protected bool canReenterSameState = false;
 
 		[SerializeField]
-		protected T startState = default;
+		protected TStateId startState = default;
 
-		public StateMachine<T> StateMachine { get; private set; }
+		public StateMachine<TStateId> StateMachine { get; private set; }
 
 		protected bool hasStarted = false;
 
@@ -44,7 +44,7 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			StateMachine = new StateMachine<T>(default, apceptValuesNotIncluded, canReenterSameState);
+			StateMachine = new StateMachine<TStateId>();
 		}
 
 		protected virtual void OnEnable()

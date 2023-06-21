@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StypeMachine
+namespace HFSM
 {
 	[Serializable]
 	public class FlypeMachine : FlagMachine<Type>

@@ -1,4 +1,4 @@
-﻿using StypeMachine;
+﻿using HFSM;
 
 public interface IHoldFlagMachine<T>
 {

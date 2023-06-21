@@ -1,4 +1,5 @@
 ﻿using System;
+using HFSM;
 
 public static class StateMachineControllerExtension
 {
@@ -32,9 +33,9 @@ public static class StateMachineControllerExtension
 
 	#region AddState
 
-	public static void AddState<T>(this IHoldStateMachine<T> hold, T state, Action<T, T> enterAction = default, Action<T, T> exitAction = default, Action updateAction = default)
+	public static void AddState<T>(this IHoldStateMachine<T> hold, T name, StateBase<T> state = null)
 	{
-		hold.StateMachine.AddState(state, enterAction, exitAction, updateAction);
+		hold.StateMachine.AddState(name, state);
 	}
 
 	#endregion

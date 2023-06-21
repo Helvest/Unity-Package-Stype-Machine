@@ -1,6 +1,6 @@
 {
-    "name": "Helvest.StypeMachine",
-    "rootNamespace": "StypeMachine",
+    "name": "Helvest.FiniteStateMachine",
+    "rootNamespace": "HFSM",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

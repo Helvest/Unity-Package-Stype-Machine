@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace StypeMachine
+namespace HFSM
 {
 	public abstract class FlagMachineController<T> : MonoBehaviour, IHoldFlagMachine<T>
 	{
@@ -32,7 +32,7 @@ namespace StypeMachine
 			CreateFlagMachine();
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-			FlagMachine.useDebugLog = useDebug;
+			FlagMachine.useDebug = useDebug;
 #endif
 		}
 

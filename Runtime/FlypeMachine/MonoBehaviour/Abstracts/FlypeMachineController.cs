@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace StypeMachine
+namespace HFSM
 {
 	[DefaultExecutionOrder(-9999)]
 	public abstract class FlypeMachineController<T> : MonoBehaviour, IHoldFlypeMachine where T : class
@@ -37,7 +37,7 @@ namespace StypeMachine
 		{
 			FlypeMachine = new FlypeMachine(apceptFlagsNotIncluded, canReenterSameFlag);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-			FlypeMachine.useDebugLog = _useDebugLog;
+			FlypeMachine.useDebug = _useDebugLog;
 #endif
 		}
 
@@ -76,13 +76,13 @@ namespace StypeMachine
 
 		public bool UseDebugLog
 		{
-			get { return FlypeMachine != null ? FlypeMachine.useDebugLog : _useDebugLog; }
+			get { return FlypeMachine != null ? FlypeMachine.useDebug : _useDebugLog; }
 			set { 
 				_useDebugLog = value;
 
 				if (FlypeMachine != null)
 				{
-					FlypeMachine.useDebugLog = _useDebugLog;
+					FlypeMachine.useDebug = _useDebugLog;
 				}
 			}
 		}

@@ -1,6 +1,8 @@
-﻿using StypeMachine;
-
-public interface IHoldTypeMachine
+﻿
+namespace HFSM
 {
-	public TypeMachine TypeMachine { get; }
+	public interface IHoldTypeMachine
+	{
+		public TypeMachine TypeMachine { get; }
+	}
 }

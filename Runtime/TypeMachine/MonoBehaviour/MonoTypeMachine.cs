@@ -1,90 +1,86 @@
-﻿using System.Collections.Generic;
-using StypeMachine;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(-9999)]
-public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
+namespace HFSM
 {
-
-	#region Fields
-
-	[Header("MonoTypeMachine")]
-
-	[SerializeField]
-	protected List<MonoBehaviour> states = default;
-
-	[Header("Prefabs")]
-	[SerializeField]
-	private Transform _transformParentForPrefabs = default;
-
-	[SerializeField]
-	protected List<MonoBehaviour> statesPrefab = default;
-
-	#endregion
-
-	#region CreateTypeMachine
-
-	protected override void CreateTypeMachine()
+	[DefaultExecutionOrder(-9999)]
+	public class MonoTypeMachine : TypeMachineController<MonoBehaviour>
 	{
-		base.CreateTypeMachine();
 
-		foreach (var state in states)
+		#region Fields
+
+		[Header("MonoTypeMachine")]
+
+		[SerializeField]
+		protected List<MonoBehaviour> states = default;
+
+		[Header("Prefabs")]
+		[SerializeField]
+		private Transform _transformParentForPrefabs = default;
+
+		[SerializeField]
+		protected List<MonoBehaviour> statesPrefab = default;
+
+		#endregion
+
+		#region CreateTypeMachine
+
+		protected override void CreateTypeMachine()
 		{
-			if (state != null)
-			{
-				state.gameObject.SetActive(false);
+			base.CreateTypeMachine();
 
-				TypeMachine.AddState(
-					state,
-					enterAction: (P, N) => state.gameObject.SetActive(true),
-					exitAction: (P, N) => state.gameObject.SetActive(false)
-				);
-			}
-		}
-
-		foreach (var state in statesPrefab)
-		{
-			if (state == null)
+			foreach (var state in states)
 			{
-				continue;
+				if (state != null)
+				{
+					state.gameObject.SetActive(false);
+
+					TypeMachine.AddState(
+						state, new State<Type>(
+						onEnter: (P) => state.gameObject.SetActive(true),
+						onExit: (P) => state.gameObject.SetActive(false)
+					));
+				}
 			}
 
-			var prefab = state;
-			MonoBehaviour instance = null;
-
-			TypeMachine.AddState(state,
-				enterAction: (P, N) =>
+			foreach (var stateId in statesPrefab)
+			{
+				if (stateId == null)
 				{
-					if (instance != null)
-					{
-						instance.gameObject.SetActive(true);
-					}
-					else if (prefab != null)
-					{
-						instance = Instantiate(prefab, _transformParentForPrefabs);
-					}
-				},
-				exitAction: (P, N) =>
-				{
-					if (instance == null)
-					{
-						return;
-					}
+					continue;
+				}
 
-					if (P == N)
+				var prefab = stateId;
+				MonoBehaviour instance = null;
+
+				TypeMachine.AddState(stateId,
+					onEnter: (_) =>
 					{
-						//Just desactivate because the instance is going to be re-use
-						instance.gameObject.SetActive(false);
-					}
-					else
+						if (instance != null)
+						{
+							instance.gameObject.SetActive(true);
+						}
+						else if (prefab != null)
+						{
+							instance = Instantiate(prefab, _transformParentForPrefabs);
+						}
+					},
+					onExit: (_) =>
 					{
+						if (instance == null)
+						{
+							return;
+						}
+
 						Destroy(instance.gameObject);
 					}
-				}
-			);
+				);
+				;
+			}
 		}
+
+		#endregion
+
 	}
-
-	#endregion
-
 }

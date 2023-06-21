@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StypeMachine
+namespace HFSM
 {
 	[DefaultExecutionOrder(-9999)]
 	public abstract class TypeMachineController<T> : MonoBehaviour, IHoldTypeMachine where T : class
@@ -10,12 +10,6 @@ namespace StypeMachine
 		#region Fields
 
 		[Header("TypeMachineController")]
-
-		[SerializeField]
-		protected bool apceptValuesNotIncluded = false;
-
-		[SerializeField]
-		protected bool canReenterSameState = false;
 
 		[SerializeField]
 		protected T startState = default;
@@ -42,10 +36,6 @@ namespace StypeMachine
 		protected virtual void Awake()
 		{
 			CreateTypeMachine();
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			TypeMachine.useDebug = useDebug;
-#endif
 		}
 
 		protected virtual void Start()
@@ -56,7 +46,10 @@ namespace StypeMachine
 
 		protected virtual void CreateTypeMachine()
 		{
-			TypeMachine = new TypeMachine(startState.GetType(), apceptValuesNotIncluded, canReenterSameState);
+			TypeMachine = new TypeMachine(startState.GetType());
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			TypeMachine.useDebug = useDebug;
+#endif
 		}
 
 		protected virtual void OnEnable()
@@ -71,7 +64,7 @@ namespace StypeMachine
 				return;
 			}
 
-			this.SetState(startState);
+			TypeMachine.OnEnter();
 		}
 
 		#endregion
