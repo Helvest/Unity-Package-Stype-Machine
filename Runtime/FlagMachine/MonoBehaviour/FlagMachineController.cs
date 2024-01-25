@@ -67,7 +67,6 @@ namespace HFSM
 		#region Debug
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-
 		[Header("Debug")]
 		[SerializeField]
 		protected bool useDebug = false;

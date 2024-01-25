@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -637,13 +638,32 @@ namespace HFSM
 
 	}
 
+	#region Overloaded
+
 	// Overloaded classes to allow for an easier usage of the StateMachine for common cases.
 	// E.g. new StateMachine() instead of new StateMachine<string, string, string>()
 
-	public class StateMachine<TStateId, TEvent> : StateMachine<TStateId, TStateId, TEvent> { }
+	public class StateMachine<TStateId, TEvent> : StateMachine<TStateId, TStateId, TEvent>
+	{
+		public StateMachine() : base() { }
 
-	public class StateMachine<TStateId> : StateMachine<TStateId, TStateId, string> { }
+		public StateMachine(TStateId startState) : base(startState) { }
+	}
 
-	public class StateMachine : StateMachine<string, string, string> { }
+	public class StateMachine<TStateId> : StateMachine<TStateId, TStateId, string>
+	{
+		public StateMachine() : base() { }
+
+		public StateMachine(TStateId startState) : base(startState) { }
+	}
+
+	public class StateMachine : StateMachine<string, string, string>
+	{
+		public StateMachine() : base() { }
+
+		public StateMachine(string startState) : base(startState) { }
+	}
+
+	#endregion
 
 }

@@ -29,7 +29,7 @@ namespace HFSM
 
 		protected virtual void Awake()
 		{
-			CreateTypeMachine();
+			CreateStateMachine();
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 			StateMachine.useDebug = useDebug;
@@ -42,7 +42,7 @@ namespace HFSM
 			ToStartState();
 		}
 
-		protected virtual void CreateTypeMachine()
+		protected virtual void CreateStateMachine()
 		{
 			StateMachine = new StateMachine<TStateId>();
 		}

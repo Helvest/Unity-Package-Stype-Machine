@@ -20,7 +20,7 @@ namespace HFSM
 		/// It creates a new State() instance under the hood. => See State for more information.
 		/// For empty states with no logic it creates a new StateBase for optimal performance.
 		/// </summary>
-		public static void AddState<TOwnId, TStateId, TEvent>(
+		public static State<TStateId, TEvent> AddState<TOwnId, TStateId, TEvent>(
 			this StateMachine<TOwnId, TStateId, TEvent> fsm,
 			TStateId name,
 			Action<State<TStateId, TEvent>> onEnter = null,
@@ -29,13 +29,17 @@ namespace HFSM
 			Func<State<TStateId, TEvent>, bool> canExit = null)
 		{
 			// Optimise for empty states
-			if (onEnter == null && onLogic == null && onExit == null && canExit == null)
+			/*if (onEnter == null && onLogic == null && onExit == null && canExit == null)
 			{
 				fsm.AddState(name, new StateBase<TStateId>());
 				return;
-			}
+			}*/
 
-			fsm.AddState(name, new State<TStateId, TEvent>(onEnter, onLogic, onExit, canExit));
+			var state = new State<TStateId, TEvent>(onEnter, onLogic, onExit, canExit);
+
+			fsm.AddState(name, state);
+
+			return state;
 		}
 
 		/// <summary>

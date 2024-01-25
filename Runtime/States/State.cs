@@ -11,10 +11,10 @@ namespace HFSM
 
 		#region Fields
 
-		private readonly Action<State<TStateId, TEvent>> _onEnter;
-		private readonly Action<State<TStateId, TEvent>> _onLogic;
-		private readonly Action<State<TStateId, TEvent>> _onExit;
-		private readonly Func<State<TStateId, TEvent>, bool> _canExit;
+		public Action<State<TStateId, TEvent>> onEnter;
+		public Action<State<TStateId, TEvent>> onLogic;
+		public Action<State<TStateId, TEvent>> onExit;
+		public Func<State<TStateId, TEvent>, bool> onExitRequest;
 
 		#endregion
 
@@ -36,10 +36,10 @@ namespace HFSM
 				Action<State<TStateId, TEvent>> onExit = null,
 				Func<State<TStateId, TEvent>, bool> canExit = null) : base()
 		{
-			_onEnter = onEnter;
-			_onLogic = onLogic;
-			_onExit = onExit;
-			_canExit = canExit;
+			this.onEnter = onEnter;
+			this.onLogic = onLogic;
+			this.onExit = onExit;
+			onExitRequest = canExit;
 		}
 
 		#endregion
@@ -48,22 +48,22 @@ namespace HFSM
 
 		public override void OnEnter()
 		{
-			_onEnter?.Invoke(this);
+			onEnter?.Invoke(this);
 		}
 
 		public override void OnLogic()
 		{
-			_onLogic?.Invoke(this);
+			onLogic?.Invoke(this);
 		}
 
 		public override bool OnExitRequest()
 		{
-			return canExit || (_canExit != null && _canExit(this));
+			return canExit || (onExitRequest != null && onExitRequest(this));
 		}
 
 		public override void OnExit()
 		{
-			_onExit?.Invoke(this);
+			onExit?.Invoke(this);
 		}
 
 		#endregion

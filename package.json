@@ -1,6 +1,6 @@
 {
   "name": "com.helvest.finitestatemachine",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "displayName": "Finite State Machine",
   "description": "System for creating State Machines and State Patterns,\nwith options to use any types as state and even active multiples states.\n\r\n- StateMachine (For State Machine)\r\n- TypeMachine (For State Pattern)\r\n- FlagMachine (For State Machine with Flags)\r\n- FlypeMachine (For State Pattern with Flags)",
   "keywords": [
