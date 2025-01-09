@@ -11,17 +11,17 @@ namespace HFSM
 		[Header("StateMachineController")]
 
 		[SerializeField]
-		protected bool apceptValuesNotIncluded = false;
+		protected bool apceptValuesNotIncluded;
 
 		[SerializeField]
-		protected bool canReenterSameState = false;
+		protected bool canReenterSameState;
 
 		[SerializeField]
-		protected TStateId startState = default;
+		protected TStateId startState;
 
 		public StateMachine<TStateId> StateMachine { get; private set; }
 
-		protected bool hasStarted = false;
+		protected bool hasStarted;
 
 		#endregion
 
@@ -70,7 +70,7 @@ namespace HFSM
 
 		[Header("Debug")]
 		[SerializeField]
-		protected bool useDebug = false;
+		protected bool useDebug;
 
 #endif
 

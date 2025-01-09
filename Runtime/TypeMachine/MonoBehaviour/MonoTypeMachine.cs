@@ -13,14 +13,14 @@ namespace HFSM
 		[Header("MonoTypeMachine")]
 
 		[SerializeField]
-		protected List<MonoBehaviour> states = default;
+		protected List<MonoBehaviour> states;
 
 		[Header("Prefabs")]
 		[SerializeField]
-		private Transform _transformParentForPrefabs = default;
+		private Transform _transformParentForPrefabs;
 
 		[SerializeField]
-		protected List<MonoBehaviour> statesPrefab = default;
+		protected List<MonoBehaviour> statesPrefab;
 
 		#endregion
 
@@ -38,8 +38,8 @@ namespace HFSM
 
 					TypeMachine.AddState(
 						state, new State<Type>(
-						onEnter: (P) => state.gameObject.SetActive(true),
-						onExit: (P) => state.gameObject.SetActive(false)
+						onEnter: P => state.gameObject.SetActive(true),
+						onExit: P => state.gameObject.SetActive(false)
 					));
 				}
 			}
@@ -55,7 +55,7 @@ namespace HFSM
 				MonoBehaviour instance = null;
 
 				TypeMachine.AddState(stateId,
-					onEnter: (_) =>
+					onEnter: _ =>
 					{
 						if (instance != null)
 						{
@@ -66,7 +66,7 @@ namespace HFSM
 							instance = Instantiate(prefab, _transformParentForPrefabs);
 						}
 					},
-					onExit: (_) =>
+					onExit: _ =>
 					{
 						if (instance == null)
 						{

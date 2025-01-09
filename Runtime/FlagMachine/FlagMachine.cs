@@ -10,9 +10,9 @@ namespace HFSM
 
 		#region Fields
 
-		public bool acceptFlagsNotIncluded = false;
+		public bool acceptFlagsNotIncluded;
 
-		public bool canReenterSameFlag = false;
+		public bool canReenterSameFlag;
 
 		private readonly Dictionary<TStateId, FlagEventHandler> _flags = new Dictionary<TStateId, FlagEventHandler>();
 
@@ -211,11 +211,11 @@ namespace HFSM
 
 		private class FlagEventHandler
 		{
-			public Action<TStateId> enterFlag = default;
+			public Action<TStateId> enterFlag;
 
-			public Action updateFlag = default;
+			public Action updateFlag;
 
-			public Action<TStateId> exitFlag = default;
+			public Action<TStateId> exitFlag;
 		}
 
 		private readonly Dictionary<TStateId, FlagEventHandler> _flagEventHandlerDict = new Dictionary<TStateId, FlagEventHandler>();

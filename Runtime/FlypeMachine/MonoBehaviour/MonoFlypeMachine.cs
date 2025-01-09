@@ -11,14 +11,14 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 	[Header("MonoFlypeMachine")]
 
 	[SerializeField]
-	protected List<MonoBehaviour> flags = default;
+	protected List<MonoBehaviour> flags;
 
 	[Header("Prefabs")]
 	[SerializeField]
-	private Transform _transformParentForPrefabs = default;
+	private Transform _transformParentForPrefabs;
 
 	[SerializeField]
-	protected List<MonoBehaviour> flagPrefab = default;
+	protected List<MonoBehaviour> flagPrefab;
 
 	#endregion
 
@@ -39,14 +39,14 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 
 				FlypeMachine.AddFlag(
 					flag,
-					enterAction: (P) =>
+					enterAction: P =>
 					{
 						if (flag != null)
 						{
 							flag.gameObject.SetActive(true);
 						}
 					},
-					exitAction: (P) =>
+					exitAction: P =>
 					{
 						if (flag != null)
 						{
@@ -67,7 +67,7 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 			MonoBehaviour instance = null;
 
 			FlypeMachine.AddFlag(flag,
-				enterAction: (P) =>
+				enterAction: P =>
 				{
 					if (instance != null)
 					{
@@ -78,7 +78,7 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 						instance = Instantiate(prefab, _transformParentForPrefabs);
 					}
 				},
-				exitAction: (P) =>
+				exitAction: P =>
 				{
 					if (instance != null)
 					{
@@ -97,11 +97,11 @@ public class MonoFlypeMachine : FlypeMachineController<MonoBehaviour>
 
 	[Header("Debug")]
 	[SerializeField]
-	private bool _autoSetActiveFlags = false;
+	private bool _autoSetActiveFlags;
 	[SerializeField]
 	private bool _startFlagActiveValueToSet = true;
 	[SerializeField]
-	private bool _flagActiveValueToSet = false;
+	private bool _flagActiveValueToSet;
 
 	protected virtual void OnValidate()
 	{

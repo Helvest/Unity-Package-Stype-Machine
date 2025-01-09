@@ -12,11 +12,11 @@ namespace HFSM
 		[Header("TypeMachineController")]
 
 		[SerializeField]
-		protected T startState = default;
+		protected T startState;
 
-		public TypeMachine TypeMachine { get; private set; } = default;
+		public TypeMachine TypeMachine { get; private set; }
 
-		protected bool hasStarted = false;
+		protected bool hasStarted;
 
 		#endregion
 
@@ -75,7 +75,7 @@ namespace HFSM
 
 		[Header("Debug")]
 		[SerializeField]
-		protected bool useDebug = false;
+		protected bool useDebug;
 
 #endif
 

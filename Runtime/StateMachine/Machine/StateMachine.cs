@@ -78,7 +78,7 @@ namespace HFSM
 		private readonly Dictionary<TEvent, List<TransitionBase<TStateId>>> _triggerTransitionsFromAny
 			= new Dictionary<TEvent, List<TransitionBase<TStateId>>>();
 
-		public StateBase<TStateId> ActiveState { get; private set; } = null;
+		public StateBase<TStateId> ActiveState { get; private set; }
 
 		#endregion
 

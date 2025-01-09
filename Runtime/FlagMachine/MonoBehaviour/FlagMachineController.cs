@@ -11,17 +11,17 @@ namespace HFSM
 		[Header("StateMachineController")]
 
 		[SerializeField]
-		protected bool apceptFlagNotIncluded = false;
+		protected bool apceptFlagNotIncluded;
 
 		[SerializeField]
-		protected bool canReenterSameFlag = false;
+		protected bool canReenterSameFlag;
 
 		[SerializeField]
-		protected List<T> startFlags = default;
+		protected List<T> startFlags;
 
-		public FlagMachine<T> FlagMachine { get; private set; } = default;
+		public FlagMachine<T> FlagMachine { get; private set; }
 
-		protected bool hasStarted = false;
+		protected bool hasStarted;
 
 		#endregion
 
@@ -69,7 +69,7 @@ namespace HFSM
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 		[Header("Debug")]
 		[SerializeField]
-		protected bool useDebug = false;
+		protected bool useDebug;
 
 #endif
 

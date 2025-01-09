@@ -12,17 +12,17 @@ namespace HFSM
 		[Header("FlypeMachineController")]
 
 		[SerializeField]
-		protected bool apceptFlagsNotIncluded = false;
+		protected bool apceptFlagsNotIncluded;
 
 		[SerializeField]
-		protected bool canReenterSameFlag = false;
+		protected bool canReenterSameFlag;
 
 		[SerializeField]
-		protected List<T> startFlags = default;
+		protected List<T> startFlags;
 
 		public FlypeMachine FlypeMachine { get; private set; }
 
-		protected bool hasStarted = false;
+		protected bool hasStarted;
 
 		#endregion
 
@@ -72,7 +72,7 @@ namespace HFSM
 
 		[Header("Debug")]
 		[SerializeField]
-		protected bool _useDebugLog = false;
+		protected bool _useDebugLog;
 
 		public bool UseDebugLog
 		{
